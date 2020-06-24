@@ -9,8 +9,13 @@ export function setup(module: Module) {
         component: ChatRoomPage
     });
     module.route({
+        path: '/profile/:slug',
+        exact: false,
+        component: ProfilePage
+    });
+    module.route({
         path: '/profile',
-        exact: true,
+        exact: false,
         component: ProfilePage
     });
 }
