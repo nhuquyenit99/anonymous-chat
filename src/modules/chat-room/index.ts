@@ -1,5 +1,5 @@
 import { Module } from 'core';
-import { ChatRoomPage, ProfilePage } from './pages';
+import { ChatRoomPage, ProfilePage, SettingPage } from './pages';
 
 export function setup(module: Module) {
     console.log('Setup chat room');
@@ -12,5 +12,10 @@ export function setup(module: Module) {
         path: '/profile',
         exact: true,
         component: ProfilePage
+    });
+    module.route({
+        path: '/setting',
+        exact: true,
+        component: SettingPage
     });
 }

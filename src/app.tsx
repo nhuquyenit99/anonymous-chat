@@ -26,6 +26,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             this.rootModule.register(module);
         }
     }
+
     async init() {
         this.setState({ loading: true });
 
@@ -34,6 +35,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
 
         this.setState({ loading: false });
     }
+    
     renderRoute() {
         return Object.entries(this.rootModule.routes()).map(([key, route]) => {
             return <Route key={route.path} {...route} />;
