@@ -2,8 +2,9 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
+import { ProfilePage } from 'modules/chat-room/pages';
 
-const INSTALL_MODULE: any = {
+const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room')
 };
 
@@ -20,9 +21,9 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         this.init();
     }
     setupModule() {
-        for (let key in INSTALL_MODULE) {
+        for (let key in INSTALLED_MODULE) {
             const module = new Module(key);
-            INSTALL_MODULE[key].setup(module);
+            INSTALLED_MODULE[key].setup(module);
             this.rootModule.register(module);
         }
     }
