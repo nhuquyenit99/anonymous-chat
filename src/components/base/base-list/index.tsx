@@ -1,9 +1,7 @@
 import React, { ComponentType } from "react";
-// import { List, Avatar } from "antd";
+import { MinimalItemData } from "models";
 import avatar from "assets/images/avatar.svg";
 import "./style.scss";
-
-type MinimalItemData = { id: string };
 
 type BaseListProps<T extends MinimalItemData = MinimalItemData> = {
   data: Array<T>;
