@@ -1,5 +1,5 @@
-import React from "react";
-import { BaseList, UserItem } from "components";
+import React, { Children } from "react";
+import { BasePanel, UserItem, BaseList } from "components";
 import { UserModel } from "models";
 
 export function ChatRoomPage() {
@@ -20,7 +20,9 @@ export function ChatRoomPage() {
   return (
     <div>
       <div>This is home page</div>
-      <BaseList<UserModel> data={data} Item={UserItem} />
+      <BasePanel title={`Favorite (${data.length})`}>
+        <BaseList<UserModel> data={data} Item={UserItem} />
+      </BasePanel>
     </div>
   );
 }
