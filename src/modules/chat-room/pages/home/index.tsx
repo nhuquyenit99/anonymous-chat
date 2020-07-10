@@ -1,8 +1,13 @@
-import React, { Children } from "react";
-import { BasePanel, UserItem, BaseList } from "components";
+import React from "react";
+import { BaseList, UserItem, BaseModal } from "components";
 import { UserModel } from "models";
 
 export function ChatRoomPage() {
+  const [show, setShow] = React.useState(false);
+
+  const close = () => {
+    setShow(false)
+  }
   const data = [
     {
       id: "adj",
@@ -20,9 +25,9 @@ export function ChatRoomPage() {
   return (
     <div>
       <div>This is home page</div>
-      <BasePanel title={`Favorite (${data.length})`}>
-        <BaseList<UserModel> data={data} Item={UserItem} />
-      </BasePanel>
+      <BaseList<UserModel> data={data} Item={UserItem} />
+      <button onClick = {() => setShow(true)}>Click me show madal</button>
+      <BaseModal<UserModel> data={data} Item={UserItem} handleShow={show} handleClose = {() => setShow(false)}/>
     </div>
   );
 }
