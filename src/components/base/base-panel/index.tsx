@@ -1,5 +1,5 @@
-import React from "react";
-import "./style.scss";
+import React from 'react';
+import './style.scss';
 
 type BasePanelProps = {
   title: string;
@@ -8,10 +8,10 @@ type BasePanelProps = {
 };
 
 export function BasePanel({ title, children, className }: BasePanelProps) {
-  return (
-    <div className={["base-panel", className].join(" ")}>
-      <p className="panel-title">{title}</p>
-      <div className="panel-children">{children}</div>
-    </div>
-  );
+    return (
+        <div className={['base-panel', className].join(' ')}>
+            <p className="panel-title">{title}</p>
+            <div className="panel-children">{children}</div>
+        </div>
+    );
 }

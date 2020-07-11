@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react';
-import { MinimalItemData } from 'models';
 import './style.scss';
+
+type MinimalItemData = { id: string };
 
 type BaseListProps<T extends MinimalItemData = MinimalItemData> = {
   data: Array<T>;

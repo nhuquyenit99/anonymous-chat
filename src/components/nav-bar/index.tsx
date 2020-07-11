@@ -8,7 +8,7 @@ import './style.scss';
 export function NavBar() {
     const [show, showMenu] = useState(false);
     return (
-        <div className={`nav-bar ${show && 'nav-open'}`}> 
+        <div className={`nav-bar ${show && 'nav-open'}`}>
             <Link to="/">
                 <div className="branch-name">
                     {`${getConfig('BRANCH_NAME')}`}
