@@ -1,9 +1,26 @@
-import React from 'react';
+import React from "react";
+import { BaseList, UserItem } from "components";
+import { UserModel } from "models";
 
 export function ChatRoomPage() {
-    return (
-        <div>
-            <div>This is home page</div>
-        </div>
-    );
+  const data = [
+    {
+      id: "adj",
+      username: "username",
+    },
+    {
+      id: "abc",
+      username: "username",
+    },
+    {
+      id: "ab",
+      username: "username",
+    },
+  ];
+  return (
+    <div>
+      <div>This is home page</div>
+      <BaseList<UserModel> data={data} Item={UserItem} />
+    </div>
+  );
 }
