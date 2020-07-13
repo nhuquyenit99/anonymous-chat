@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import avatar from "assets/images/avatar-lighter.svg";
-import { UserIdContext } from "context";
-import "./style.scss";
 import { UserForm } from "./user-form";
+import { AuthContext } from "context";
+import "./style.scss";
 
 export function UserInfoPanel() {
   const [username, setUsername] = useState("Username");
   const [userBio, setUserBio] = useState("Life as a beautiful flower.");
   const [editMode, setEditMode] = useState(false);
+  const [auth, setAuth] = useState(false);
 
   const [inputUsername, setInputUserName] = useState("");
   const [inputUserBio, setInputUserBio] = useState("");
+
+  const userInfoString = localStorage.getItem("user-info");
+
   useEffect(() => {
-    const userInfoString = localStorage.getItem("user-info");
     if (userInfoString) {
+      setAuth(true);
       const userInfo = JSON.parse(userInfoString);
       setUsername(userInfo.username);
       setUserBio(userInfo.userBio);
@@ -40,10 +44,13 @@ export function UserInfoPanel() {
     setUsername(inputUsername);
     setUserBio(inputUserBio);
     setEditMode(false);
+    if (auth === false) {
+      setAuth(true);
+    }
   };
-
   return (
     <div className="user-info-panel">
+      <AuthContext.Provider value={auth} />
       <div className="user-info-body">
         <div className="user-info-content">
           <img className="avatar" src={avatar} />
@@ -70,9 +77,9 @@ export function UserInfoPanel() {
           changeUsername={UsernameChangeHandler}
           changeBio={UserBioChangeHandler}
         />
-      ) : (
+      ) : auth ? (
         <button className="btn-add-favorite">Favorite</button>
-      )}
+      ) : null}
     </div>
   );
 }

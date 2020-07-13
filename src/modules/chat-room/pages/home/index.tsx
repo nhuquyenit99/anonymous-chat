@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseList, UserItem, BaseModal } from "components";
+import { BaseList, UserItem, BaseModal, UserInfoPanel } from "components";
 import { UserModel } from "models";
 
 export function ChatRoomPage() {
@@ -33,6 +33,7 @@ export function ChatRoomPage() {
         handleShow={show}
         handleClose={() => setShow(false)}
       />
+      <UserInfoPanel />
     </div>
   );
 }
