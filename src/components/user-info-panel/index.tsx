@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import avatar from "assets/images/avatar-lighter.svg";
 import { UserForm } from "./user-form";
-import { AuthContext } from "context";
+import { UserContext } from "context";
 import "./style.scss";
 
 export function UserInfoPanel() {
-  const [username, setUsername] = useState("Username");
-  const [userBio, setUserBio] = useState("Life as a beautiful flower.");
+  const user = useContext(UserContext);
+  const [username, setUsername] = useState("");
+  const [userBio, setUserBio] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [auth, setAuth] = useState(false);
 
   const [inputUsername, setInputUserName] = useState("");
   const [inputUserBio, setInputUserBio] = useState("");
 
-  const userInfoString = localStorage.getItem("user-info");
-
   useEffect(() => {
+    const userInfoString = localStorage.getItem("user-info");
     if (userInfoString) {
-      setAuth(true);
+      user.auth = true;
       const userInfo = JSON.parse(userInfoString);
+      user.userId = userInfo.userId;
       setUsername(userInfo.username);
       setUserBio(userInfo.userBio);
+    } else {
+      setUsername("Username");
+      setUserBio("Life as a beautiful flower.");
     }
     setInputUserName(username);
     setInputUserBio(userBio);
@@ -41,16 +44,27 @@ export function UserInfoPanel() {
   };
 
   const EditedHandler = () => {
-    setUsername(inputUsername);
-    setUserBio(inputUserBio);
-    setEditMode(false);
-    if (auth === false) {
-      setAuth(true);
+    if (inputUsername === "" || inputUserBio === "") {
+      alert("Please input both of username and bio!");
+    } else {
+      setUsername(inputUsername);
+      setUserBio(inputUserBio);
+      setEditMode(false);
+      if (user.auth === false) {
+        user.auth = true;
+      }
+      const userInfo = {
+        userId: user.userId,
+        username: inputUsername,
+        userBio: inputUserBio,
+      };
+      console.log(userInfo);
+      const userInfoString = JSON.stringify(userInfo);
+      localStorage.setItem("user-info", userInfoString);
     }
   };
   return (
     <div className="user-info-panel">
-      <AuthContext.Provider value={auth} />
       <div className="user-info-body">
         <div className="user-info-content">
           <img className="avatar" src={avatar} />
@@ -77,7 +91,7 @@ export function UserInfoPanel() {
           changeUsername={UsernameChangeHandler}
           changeBio={UserBioChangeHandler}
         />
-      ) : auth ? (
+      ) : user.auth ? (
         <button className="btn-add-favorite">Favorite</button>
       ) : null}
     </div>
