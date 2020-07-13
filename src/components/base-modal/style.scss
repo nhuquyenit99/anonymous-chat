@@ -1,0 +1,12 @@
+.base-modal {
+    display: block;
+    width: 30%;
+    margin: auto;
+}
+
+.ant-modal {
+    display: block;
+    .ant-modal-footer {
+        display: none;
+    }
+}

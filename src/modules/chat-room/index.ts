@@ -18,9 +18,4 @@ export function setup(module: Module) {
     exact: false,
     component: ProfilePage,
   });
-  // module.route({
-  //     path: '/setting',
-  //     exact: true,
-  //     component: SettingPage
-  // });
 }
