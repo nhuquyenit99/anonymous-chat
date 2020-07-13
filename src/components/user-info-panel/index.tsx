@@ -73,15 +73,21 @@ export function UserInfoPanel() {
         </div>
         {editMode ? (
           <div>
-            <button className="btn-left-top" onClick={() => setEditMode(false)}>
+            <button
+              className="btn btn-left-top"
+              onClick={() => setEditMode(false)}
+            >
               Cancel
             </button>
-            <button className="btn-right-top" onClick={EditedHandler}>
+            <button className="btn btn-right-top" onClick={EditedHandler}>
               OK
             </button>
           </div>
         ) : (
-          <button className="btn-right-top" onClick={() => setEditMode(true)}>
+          <button
+            className="btn btn-right-top"
+            onClick={() => setEditMode(true)}
+          >
             Edit
           </button>
         )}
@@ -91,8 +97,6 @@ export function UserInfoPanel() {
           changeUsername={UsernameChangeHandler}
           changeBio={UserBioChangeHandler}
         />
-      ) : user.auth ? (
-        <button className="btn-add-favorite">Favorite</button>
       ) : null}
     </div>
   );
