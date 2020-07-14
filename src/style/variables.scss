@@ -12,6 +12,8 @@ $sizes: (
 );
 
 :root {
+    --blue-medium: #1890ff;
+    --blue-light: #d8e6ff;
     --bgColor-primary: #255f85;
     --color-primary: white;
     --bdColor-primary: #ccc;
@@ -19,6 +21,7 @@ $sizes: (
     --bgColor-secondary: #58a4b0;
     --color-secondary: rgb(34, 34, 34);
     --bdColor-secondary: #ccc;
+    --bgColor-secondary-dark: #b4b4bb;
 
     --bgColor-tertiary: #a9bcd09e;
     --color-tertiary: rgb(48, 48, 48);

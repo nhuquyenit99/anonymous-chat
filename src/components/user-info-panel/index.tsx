@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import avatar from 'assets/images/avatar-lighter.svg';
 import { UserForm } from './user-form';
 import { UserContext } from 'context';
+import { BaseButton } from 'components';
 
 import './style.scss';
 
@@ -62,30 +63,31 @@ export function UserInfoPanel() {
         <div className="user-info-panel">
             <div className="user-info-body">
                 <div className="user-info-content">
-                    <img className="avatar" src={avatar} />
+                    <img className="avatar" src={avatar} alt='avatar' />
                     <p className="username">{userForm.username}</p>
                     <p className="bio">{userForm.userBio}</p>
                 </div>
                 {editMode ? (
                     <div>
-                        <button
-                            className="btn btn-left-top"
-                            onClick={() => setEditMode(false)}
-                        >
-                            Cancel
-                        </button>
-                        <button className="btn btn-right-top" onClick={onOkHandle}>
-                            OK
-                        </button>
+                        <BaseButton
+                            btnType="btn-blue btn-left-top"
+                            clicked={() => setEditMode(false)}
+                            btnName='Cancel'
+                        />
+                        <BaseButton
+                            btnType="btn-blue btn-right-top"
+                            clicked={onOkHandle}
+                            btnName='OK'
+                        />
                     </div>
-                ) : (
-                    <button
-                        className="btn btn-right-top"
-                        onClick={() => setEditMode(true)}
-                    >
-                        Edit
-                    </button>
-                )}
+                ) :
+                    (
+                        <BaseButton
+                            btnType="btn-blue btn-right-top"
+                            clicked={() => setEditMode(true)}
+                            btnName='Edit' />
+                    )
+                }
             </div>
             {editMode && (
                 <UserForm

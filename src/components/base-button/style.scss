@@ -1,0 +1,27 @@
+button {
+    border: 1px solid var(--blue-medium);
+    box-sizing: border-box;
+    box-shadow: 0 .125rem 0 rgba(0, 0, 0, 0.043);
+    border-radius: .125rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
+}
+.btn-blue {
+    width: 5rem;
+    height: 2rem;
+    background: var(--blue-medium);
+    color: white;
+}
+.btn-white {
+
+}
+.btn-right-top {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+}
+.btn-left-top {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm)
+}

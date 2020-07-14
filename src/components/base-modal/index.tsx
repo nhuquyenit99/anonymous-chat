@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './style.scss';
 
-import { Modal} from 'antd';
+import { Modal } from 'antd';
 
 
 type MinimalItemData = { id: string };
@@ -10,10 +10,10 @@ type MinimalItemData = { id: string };
 interface baseModalProps<T extends MinimalItemData = MinimalItemData> {
     data: Array<T>;
     Item: React.ComponentType<{ data: T }>;
-    handleAddMember ?: Function;
-    handleShow ?: any
-    handleClose ?: any
-    className ?: any
+    handleAddMember?: Function;
+    handleShow?: any
+    handleClose?: any
+    className?: any
 }
 
 export function BaseModal<T extends MinimalItemData = MinimalItemData>({
