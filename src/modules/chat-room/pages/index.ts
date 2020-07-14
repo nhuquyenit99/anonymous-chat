@@ -1,2 +1,2 @@
-export { ChatRoomPage } from "./home";
-export { ProfilePage } from "./profile";
+export { ChatRoomPage } from './home';
+export { ProfilePage } from './profile';

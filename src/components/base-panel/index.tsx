@@ -2,9 +2,9 @@ import React from 'react';
 import './style.scss';
 
 type BasePanelProps = {
-  title: string;
-  children: any;
-  className?: string;
+    title: string;
+    children: any;
+    className?: string;
 };
 
 export function BasePanel({ title, children, className }: BasePanelProps) {

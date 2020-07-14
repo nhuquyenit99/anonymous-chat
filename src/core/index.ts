@@ -1,4 +1,4 @@
 export {
     Module,
     RootModule
-} from './module'
+} from './module';

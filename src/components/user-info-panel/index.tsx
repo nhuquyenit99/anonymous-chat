@@ -78,14 +78,16 @@ export function UserInfoPanel() {
                             OK
                         </button>
                     </div>
-                ) : (
-                    <button
-                        className="btn btn-right-top"
-                        onClick={() => setEditMode(true)}
-                    >
-                        Edit
-                    </button>
-                )}
+                ) :
+                    (
+                        <button
+                            className="btn btn-right-top"
+                            onClick={() => setEditMode(true)}
+                        >
+                            Edit
+                        </button>
+                    )
+                }
             </div>
             {editMode && (
                 <UserForm
