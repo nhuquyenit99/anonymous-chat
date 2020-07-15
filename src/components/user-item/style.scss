@@ -1,7 +1,7 @@
 .user-item{
     position: relative;
     display: flex;
-    width: 20.5rem;
+    width: inherit;
     height: 4rem;
     margin: var(--spacing-sm);
     padding: var(--spacing-sm);
@@ -26,7 +26,6 @@
         .item-name{
             margin-top: var(--spacing-sm);
             font-size: var(--fontSize-md);
-            text-transform: uppercase;
             font-weight: bold;
         }
         .lastest-message{
@@ -43,6 +42,6 @@
         font-size: var(--fontSize-sm);
     }
 }
-.blue-bg {
-    background: var(--blue-light);
-}
+// .blue-bg {
+//     background: var(--blue-light);
+// }

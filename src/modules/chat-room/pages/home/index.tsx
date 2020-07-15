@@ -1,6 +1,6 @@
 import React from 'react';
-import { BaseList, BaseModal, UserInfoPanel, PublicItem, UserItem } from 'components';
-import { UserModel } from 'models';
+import { UserInfoPanel, ActiveUserPanel } from 'components';
+//import { UserModel } from 'models';
 
 export function ChatRoomPage() {
     console.log('render ChatRoomPage');
@@ -20,10 +20,7 @@ export function ChatRoomPage() {
     ];
     return (
         <div>
-            <div>This is home page</div>
-            <PublicItem />
-            <UserInfoPanel />
-            <UserItem username="Nhim" userId="123456789" />
+            <p>This is home page.</p>
         </div>
     );
 }

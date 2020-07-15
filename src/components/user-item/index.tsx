@@ -2,24 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import avatar from 'assets/images/avatar.svg';
 import './style.scss';
 import { getClient } from '../../client';
-import { UserContext, PrivateChannelContext } from '../../context';
+import { UserContext, ListMessageContext } from '../../context';
+import { UserModel } from 'models';
 
-type UserItemType = {
-    username: string;
-    userId: string;
-}
-
-export function UserItem({ username, userId }: UserItemType) {
+export function UserItem({ data }: { data: UserModel }) {
     const user = useContext(UserContext);
-    let privateChannel = useContext(PrivateChannelContext);
+    let listMessage = useContext(ListMessageContext);
 
     const [lastestMessage, setLastestMessage] = useState({ content: '', read: false, time: '' });
-    const chatTopic = `/${[user.userId, userId].sort().join('')}`;
+    const chatTopic = `/${[user.userId, data.userId].sort().join('')}`;
 
     useEffect(() => {
         console.log(chatTopic);
         let newPrivateChannel = { topic: chatTopic, listMessage: [{ content: '', read: false, time: '' }] };
-        privateChannel.push(newPrivateChannel);
+        listMessage.push(newPrivateChannel);
         getClient().subscribe(chatTopic);
     });
     useEffect(() => {
@@ -31,21 +27,21 @@ export function UserItem({ username, userId }: UserItemType) {
                 const time = date.getHours().toString() + ':' + date.getMinutes().toString();
                 console.log(time);
                 const lastestMes = { content: mes, read: false, time: time };
-                const index = privateChannel.findIndex((item) => item.topic === chatTopic);
-                privateChannel[index].listMessage.push(lastestMes);
-                console.log(privateChannel[index]);
+                const index = listMessage.findIndex((item) => item.topic === chatTopic);
+                listMessage[index].listMessage.push(lastestMes);
+                console.log(listMessage[index]);
                 setLastestMessage(lastestMes);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div key={userId} className='user-item'>
+        <div className='user-item'>
             <div className='avatar'>
                 <img src={avatar} alt='avatar' />
             </div>
             <div className='item-content'>
-                <h5 className="item-name">{username}</h5>
+                <h5 className="item-name">{data.username}</h5>
                 <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
             </div>
             <p className='extra'>{lastestMessage.time}</p>

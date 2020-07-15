@@ -54,9 +54,21 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             this.context.auth = true;
             const userInfo = JSON.parse(userInfoString);
             this.context.userId = userInfo.userId;
+            this.context.username = userInfo.username;
         }
+        this.context.activeUsers = [];
         this.setState({ loading: false });
+        //this.sendNotification();
     }
+
+    // async sendNotification() {
+    //     while (1) {
+    //         let date = new Date();
+    //         if (date.getMinutes() === 38) {
+    //             console.log('This is a notification', date.getSeconds());
+    //         }
+    //     }
+    // }
 
     renderRoute() {
         return Object.entries(this.rootModule.routes()).map(([key, route]) => {
