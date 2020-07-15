@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import './style.scss';
 
-type BaseButtonType = {
-    btnType: string;
-    clicked: any;
-    btnName: string;
+type BaseButtonType =  DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+    className?: string;
 }
 
-export function BaseButton({ btnType, clicked, btnName }: BaseButtonType) {
+export function BaseButton({ className, children, ...rest }: React.PropsWithChildren<BaseButtonType>) {
     return (
-        <button className={btnType} onClick={clicked}>{btnName}</button>
+        <button className={className} {...rest} >{children}</button>
     );
 }
