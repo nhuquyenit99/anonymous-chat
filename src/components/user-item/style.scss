@@ -1,14 +1,14 @@
 .user-item{
     position: relative;
     display: flex;
-    width: 328px;
-    margin: 12px;
-    padding: 10px;
-    height: 60px;
+    width: 20.5rem;
+    height: 4rem;
+    margin: var(--spacing-sm);
+    padding: var(--spacing-sm);
     align-items: center;
-    background: #E0E0E0;
+    background: var(--color-gray);
     .avatar {
-        width: 37px;
+        width: 2.2rem;
         height: inherit;
         position: relative;
         img {
@@ -22,15 +22,15 @@
     }
     .item-content{
         flex-grow: 1;
-        margin-left: 10px;
+        margin-left: var(--spacing-sm);
         .item-name{
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: var(--spacing-sm);
+            font-size: var(--fontSize-md);
             text-transform: uppercase;
             font-weight: bold;
         }
         .lastest-message{
-            font-size: 12px;
+            font-size: var(--fontSize-sm);
         }
         .unread {
             font-weight: bold;
@@ -38,11 +38,11 @@
     }
     .extra{
         position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 12px;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        font-size: var(--fontSize-sm);
     }
 }
 .blue-bg {
-    background: #CEE5FF;
+    background: var(--blue-light);
 }

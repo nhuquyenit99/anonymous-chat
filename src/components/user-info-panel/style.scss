@@ -20,17 +20,15 @@
       }
       .username {
         font-weight: bold;
-        font-size: 1.5rem;
-        line-height: 1.75rem;
+        font-size: var(--fontSize-xl);
         padding-top: var(--spacing-xl);
         margin-bottom: 0;
         color: white;
       }
       .bio {
         color: rgba(255, 255, 255, 0.68);
-        font-size: 1.125rem;
-        line-height: 1.5rem;
-        margin-top: var(--spacing-lg);
+        font-size: var(--fontSize-lg);
+        margin-top: var(--spacing-sm);
         padding-bottom: var(--spacing-3xl);
       }
     }

@@ -28,7 +28,8 @@ export function PublicItem() {
                 setLastestMessage(lastestMes);
             }
         });
-    }, [publicChannel.listMessage]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/new_user') {
@@ -40,13 +41,15 @@ export function PublicItem() {
                         console.log('Active user:', JSON.parse(JSON.stringify(message.toString())));
                         const activeUser = JSON.parse(JSON.stringify(message.toString()));
                         publicChannel.activeUsers.push(activeUser);
+                        console.log(publicChannel.activeUsers);
                         setCountActiveUsers(publicChannel.activeUsers.length);
                     }
                 });
             }
         });
 
-    }, [publicChannel.activeUsers, user.userId, user.username]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <div key='/public' className='user-item blue-bg'>
             <div className='avatar'>

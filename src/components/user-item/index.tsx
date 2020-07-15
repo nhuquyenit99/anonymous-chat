@@ -37,7 +37,8 @@ export function UserItem({ username, userId }: UserItemType) {
                 setLastestMessage(lastestMes);
             }
         });
-    }, [chatTopic, privateChannel]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <div key={userId} className='user-item'>
             <div className='avatar'>
