@@ -1,0 +1,48 @@
+.user-item{
+    position: relative;
+    display: flex;
+    width: 20.5rem;
+    height: 4rem;
+    margin: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    align-items: center;
+    background: var(--color-gray);
+    .avatar {
+        width: 2.2rem;
+        height: inherit;
+        position: relative;
+        img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    }
+    .item-content{
+        flex-grow: 1;
+        margin-left: var(--spacing-sm);
+        .item-name{
+            margin-top: var(--spacing-sm);
+            font-size: var(--fontSize-md);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .lastest-message{
+            font-size: var(--fontSize-sm);
+        }
+        .unread {
+            font-weight: bold;
+        }
+    }
+    .extra{
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        font-size: var(--fontSize-sm);
+    }
+}
+.blue-bg {
+    background: var(--blue-light);
+}
