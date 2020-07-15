@@ -19,34 +19,44 @@ export function ActiveUserPanel() {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/new_user') {
                 console.log('Have a new user: ', message.toString());
-                userContext.activeUsers = [];
-                let userInfo = {
+                const userInfo = {
                     userId: userContext.userId,
                     username: userContext.username
                 };
                 const userInfoMes = JSON.stringify(userInfo);
+                userContext.activeUsers = [];
                 getClient().publish('/active_user', userInfoMes);
-                getClient().on('message', (topic: any, message: any) => {
-                    console.log(message.toString());
-                    const activeUserInfo = {
-                        userId:
-                            message.toString().split('"')[3],
-                        username: message.toString().split('"')[7]
-                    };
-                    console.log('Active User: ', activeUserInfo);
-                    if (topic === '/active_user') {
-                        console.log('Active user:', JSON.parse(JSON.stringify((message.toString()))).username);
-                        if (activeUserInfo.userId !== userContext.userId) {
-                            userContext.activeUsers.push(activeUserInfo);
-                            console.log('list active users: ', userContext.activeUsers);
-                            setActiveUsers(userContext.activeUsers);
-                        }
-                    }
-                });
+            }
+            if (topic === '/active_user') {
+                const activeUserInfo = {
+                    userId:
+                        message.toString().split('"')[3],
+                    username: message.toString().split('"')[7]
+                };
+                console.log('Active User: ', activeUserInfo);
+                if (activeUserInfo.userId !== userContext.userId &&
+                    !userContext.activeUsers.find(item => item.userId === activeUserInfo.userId)
+                ) {
+                    userContext.activeUsers.push(activeUserInfo);
+                    console.log('list active users: ', userContext.activeUsers);
+                    setActiveUsers(userContext.activeUsers);
+                }
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        const userInfo = {
+            userId: userContext.userId,
+            username: userContext.username
+        };
+        const userInfoMes = JSON.stringify(userInfo);
+        setInterval(() => {
+            userContext.activeUsers = [];
+            setActiveUsers([]);
+            getClient().publish('/active_user', userInfoMes);
+        }, 60000);
+    });
     return (
         <BasePanel title='Chat list' className='blue-header-panel'>
             <PublicItem

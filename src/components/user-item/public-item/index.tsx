@@ -34,7 +34,7 @@ export function PublicItem({ activeUsers }: PublicItemType) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div className='user-item'>
+        <div className='user-item blue-bg'>
             <div className='avatar'>
                 <img src={avatar} alt='avatar' />
             </div>

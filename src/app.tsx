@@ -4,7 +4,7 @@ import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
 // import { ProfilePage } from 'modules/chat-room/pages';
 import mqtt from 'mqtt';
-import { setClient } from 'client';
+import { setClient, getClient } from 'client';
 import { UserContext } from 'context';
 
 const INSTALLED_MODULE: any = {
@@ -58,17 +58,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         }
         this.context.activeUsers = [];
         this.setState({ loading: false });
-        //this.sendNotification();
     }
-
-    // async sendNotification() {
-    //     while (1) {
-    //         let date = new Date();
-    //         if (date.getMinutes() === 38) {
-    //             console.log('This is a notification', date.getSeconds());
-    //         }
-    //     }
-    // }
 
     renderRoute() {
         return Object.entries(this.rootModule.routes()).map(([key, route]) => {
