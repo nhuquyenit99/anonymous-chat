@@ -8,3 +8,4 @@ export { BasePanel } from './base-panel';
 export { BaseModal } from './base-modal';
 export { BaseButton } from './base-button';
 export { UserInfoPanel } from './user-info-panel';
+export { UserItem } from './user-item';

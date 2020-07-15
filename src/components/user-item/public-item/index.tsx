@@ -34,18 +34,19 @@ export function PublicItem() {
             if (topic === '/new_user') {
                 console.log('Have a new user: ', message.toString());
                 publicChannel.activeUsers = [];
-                getClient().publish('/active_user', user.userId);
+                getClient().publish('/active_user', `{userId: ${user.userId}, username: ${user.username}}`);
                 getClient().on('message', (topic: any, message: any) => {
                     if (topic === '/active_user') {
-                        console.log('Active user:', message.toString());
-                        publicChannel.activeUsers.push(message.toString());
+                        console.log('Active user:', JSON.parse(JSON.stringify(message.toString())));
+                        const activeUser = JSON.parse(JSON.stringify(message.toString()));
+                        publicChannel.activeUsers.push(activeUser);
                         setCountActiveUsers(publicChannel.activeUsers.length);
                     }
                 });
             }
         });
 
-    }, [publicChannel.activeUsers, user.userId]);
+    }, [publicChannel.activeUsers, user.userId, user.username]);
     return (
         <div key='/public' className='user-item blue-bg'>
             <div className='avatar'>

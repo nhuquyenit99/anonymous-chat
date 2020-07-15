@@ -49,6 +49,12 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             mqtt_client.publish('/new_user', JSON.stringify(this.context.userId));
         });
 
+        const userInfoString = localStorage.getItem('user-info');
+        if (userInfoString) {
+            this.context.auth = true;
+            const userInfo = JSON.parse(userInfoString);
+            this.context.userId = userInfo.userId;
+        }
         this.setState({ loading: false });
     }
 

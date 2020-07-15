@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseList, BaseModal, UserInfoPanel, PublicItem } from 'components';
+import { BaseList, BaseModal, UserInfoPanel, PublicItem, UserItem } from 'components';
 import { UserModel } from 'models';
 
 export function ChatRoomPage() {
@@ -23,6 +23,7 @@ export function ChatRoomPage() {
             <div>This is home page</div>
             <PublicItem />
             <UserInfoPanel />
+            <UserItem username="Nhim" userId="123456789" />
         </div>
     );
 }

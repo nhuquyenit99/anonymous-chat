@@ -27,36 +27,37 @@ export function UserInfoPanel() {
 
     const onChangeUserNameHandler = (e: any) => {
         const text = e.target.value;
-        if (text !== '') {
-            setUserForm(prev => ({
-                ...prev,
-                username: text
-            }));
-        }
+        setUserForm(prev => ({
+            ...prev,
+            username: text
+        }));
     };
 
     const onChangeBioHandler = (e: any) => {
         const text = e.target.value;
-        if (text !== '') {
-            setUserForm(prev => ({
-                ...prev,
-                userBio: text
-            }));
-        }
+        setUserForm(prev => ({
+            ...prev,
+            userBio: text
+        }));
     };
 
     const onOkHandle = () => {
-        setEditMode(false);
-        if (user.auth === false) {
-            user.auth = true;
+        if (userForm.userBio === '' || userForm.username === '') {
+            alert('Please input both username and bio');
+        } else {
+            setEditMode(false);
+            if (user.auth === false) {
+                user.auth = true;
+            }
+            const userInfo = {
+                userId: user.userId,
+                username: userForm.username,
+                userBio: userForm.userBio,
+            };
+            user.username = userForm.username;
+            const userInfoString = JSON.stringify(userInfo);
+            localStorage.setItem('user-info', userInfoString);
         }
-        const userInfo = {
-            userId: user.userId,
-            username: userForm.username,
-            userBio: userForm.userBio,
-        };
-        const userInfoString = JSON.stringify(userInfo);
-        localStorage.setItem('user-info', userInfoString);
     };
 
     return (
@@ -70,22 +71,23 @@ export function UserInfoPanel() {
                 {editMode ? (
                     <div>
                         <BaseButton
-                            btnType="btn-blue btn-left-top"
-                            clicked={() => setEditMode(false)}
-                            btnName='Cancel'
-                        />
+                            className="btn-blue btn-left-top"
+                            onClick={() => setEditMode(false)}>
+                            Cancel
+                        </BaseButton>
                         <BaseButton
-                            btnType="btn-blue btn-right-top"
-                            clicked={onOkHandle}
-                            btnName='OK'
-                        />
+                            className="btn-blue btn-right-top"
+                            onClick={onOkHandle}>
+                            OK
+                        </BaseButton>
                     </div>
                 ) :
                     (
                         <BaseButton
-                            btnType="btn-blue btn-right-top"
-                            clicked={() => setEditMode(true)}
-                            btnName='Edit' />
+                            className="btn-blue btn-right-top"
+                            onClick={() => setEditMode(true)}>
+                            Edit
+                        </BaseButton>
                     )
                 }
             </div>
