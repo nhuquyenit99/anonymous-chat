@@ -1,0 +1,47 @@
+.user-item{
+    position: relative;
+    display: flex;
+    width: 328px;
+    margin: 12px;
+    padding: 10px;
+    height: 60px;
+    align-items: center;
+    .avatar {
+        width: 37px;
+        height: inherit;
+        position: relative;
+        img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    }
+    .item-content{
+        flex-grow: 1;
+        margin-left: 10px;
+        .item-name{
+            margin-top: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .lastest-message{
+            font-size: 12px;
+        }
+        .unread {
+            font-weight: bold;
+        }
+    }
+    .extra{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+}
+.blue-bg {
+    background: #CEE5FF;
+}

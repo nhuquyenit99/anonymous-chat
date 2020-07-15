@@ -5,3 +5,9 @@ export const UserContext = React.createContext({
     auth: false,
     userId: userId,
 });
+
+export const PublicChannelContext = React.createContext({
+    topic: '/public',
+    activeUsers: [userId],
+    listMessage: ['']
+});
