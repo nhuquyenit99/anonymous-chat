@@ -24,6 +24,7 @@ export function ActiveUserPanel() {
                     username: userContext.username
                 };
                 const userInfoMes = JSON.stringify(userInfo);
+                setActiveUsers([]);
                 userContext.activeUsers = [];
                 getClient().publish('/active_user', userInfoMes);
             }

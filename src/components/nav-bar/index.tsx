@@ -31,8 +31,6 @@ export function NavBar() {
                 <div className="nav-item nav-item-right">Login&nbsp;&nbsp;&nbsp;</div>
             </div>
             <div>
-                <UserInfoPanel />
-                <ActiveUserPanel />
             </div>
         </>
     );

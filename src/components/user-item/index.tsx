@@ -4,6 +4,7 @@ import './style.scss';
 import { getClient } from '../../client';
 import { UserContext, ListMessageContext } from '../../context';
 import { UserModel } from 'models';
+import { Link } from 'react-router-dom';
 
 export function UserItem({ data }: { data: UserModel }) {
     const user = useContext(UserContext);
@@ -36,15 +37,17 @@ export function UserItem({ data }: { data: UserModel }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div className='user-item'>
-            <div className='avatar'>
-                <img src={avatar} alt='avatar' />
+        <Link to={`/${chatTopic}`}>
+            <div className='user-item'>
+                <div className='avatar'>
+                    <img src={avatar} alt='avatar' />
+                </div>
+                <div className='item-content'>
+                    <h5 className="item-name">{data.username}</h5>
+                    <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
+                </div>
+                <p className='extra'>{lastestMessage.time}</p>
             </div>
-            <div className='item-content'>
-                <h5 className="item-name">{data.username}</h5>
-                <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
-            </div>
-            <p className='extra'>{lastestMessage.time}</p>
-        </div>
+        </Link>
     );
 }

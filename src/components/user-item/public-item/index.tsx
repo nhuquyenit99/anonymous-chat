@@ -3,6 +3,7 @@ import avatar from 'assets/images/avatar.svg';
 import '../style.scss';
 import { ListMessageContext, UserContext } from 'context';
 import { getClient } from 'client';
+import { Link } from 'react-router-dom';
 
 type PublicItemType = {
     activeUsers: number;
@@ -34,15 +35,17 @@ export function PublicItem({ activeUsers }: PublicItemType) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div className='user-item blue-bg'>
-            <div className='avatar'>
-                <img src={avatar} alt='avatar' />
+        <Link to="/">
+            <div className='user-item blue-bg'>
+                <div className='avatar'>
+                    <img src={avatar} alt='avatar' />
+                </div>
+                <div className='item-content'>
+                    <h5 className="item-name">PUBLIC</h5>
+                    <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
+                </div>
+                <p className='extra'>{activeUsers} Users</p>
             </div>
-            <div className='item-content'>
-                <h5 className="item-name">PUBLIC</h5>
-                <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
-            </div>
-            <p className='extra'>{activeUsers} Users</p>
-        </div>
+        </Link>
     );
 }

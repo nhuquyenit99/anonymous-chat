@@ -19,7 +19,7 @@ export function ChatRoomPage() {
         },
     ];
     return (
-        <div>
+        <div style={{ flex: 1 }}>
             <p>This is home page.</p>
         </div>
     );

@@ -6,6 +6,7 @@ import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
 import { setClient, getClient } from 'client';
 import { UserContext } from 'context';
+import { UserInfoPanel, ActiveUserPanel } from 'components';
 
 const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room'),
@@ -73,10 +74,12 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         return (
             <BrowserRouter basename="/">
                 <AppWrapper>
+                    <ActiveUserPanel />
                     <Switch>
                         {this.renderRoute()}
                         <Route component={NotFoundPage} />
                     </Switch>
+                    <UserInfoPanel />
                 </AppWrapper>
             </BrowserRouter>
         );

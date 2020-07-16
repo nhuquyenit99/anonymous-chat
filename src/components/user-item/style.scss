@@ -30,12 +30,14 @@
         }
         .lastest-message{
             font-size: var(--fontSize-sm);
+            color: #888;
         }
         .unread {
             font-weight: bold;
         }
     }
     .extra{
+        color: #888;
         position: absolute;
         top: var(--spacing-sm);
         right: var(--spacing-sm);
