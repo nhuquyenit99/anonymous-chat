@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import btnSend from 'assets/images/Send-button.svg';
 import './style.scss';
 import { getClient } from 'client';
@@ -9,13 +9,14 @@ type ConversationInputType = {
 }
 
 export function ConversationInput({ topic }: ConversationInputType) {
+    const userContext = useContext(UserContext);
     const [messageToSend, setMessageToSend] = useState('');
 
     const sendMessage = () => {
         console.log('sending message...');
         if (messageToSend) {
             console.log(messageToSend);
-            getClient().publish(topic, messageToSend);
+            getClient().publish(topic, configMessage(messageToSend));
             setMessageToSend('');
         }
     };
@@ -27,6 +28,9 @@ export function ConversationInput({ topic }: ConversationInputType) {
     };
     const changeHandler = (e: any) => {
         setMessageToSend(e.target.value);
+    };
+    const configMessage = (message: string) => {
+        return [userContext.userId, userContext.username, message].join(',');
     };
 
     return (
