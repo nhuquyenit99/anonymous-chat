@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseList, BaseModal, UserInfoPanel, PublicItem, UserItem } from 'components';
 import { UserModel } from 'models';
+import { ConversationInput } from 'components/conversation-input';
 
 export function ChatRoomPage() {
     console.log('render ChatRoomPage');
@@ -22,8 +23,9 @@ export function ChatRoomPage() {
         <div>
             <div>This is home page</div>
             <PublicItem />
-            <UserInfoPanel />
+            {/* <UserInfoPanel /> */}
             <UserItem username="Nhim" userId="123456789" />
+            <ConversationInput topic='/public' />
         </div>
     );
 }
