@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import { getConfig } from 'config';
 
 import './style.scss';
-import { UserInfoPanel } from 'components/user-info-panel';
-import { ActiveUserPanel } from 'components/active-user-panel';
 
 export function NavBar() {
     const [show, showMenu] = useState(false);

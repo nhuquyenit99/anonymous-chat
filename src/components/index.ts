@@ -3,10 +3,7 @@ export { Footer } from './footer';
 export { AppWrapper } from './app-wrap';
 export { NotFoundPage } from './not-found';
 export { BaseList } from './base-list';
-export { PublicItem } from './user-item/public-item';
 export { BasePanel } from './base-panel';
 export { BaseModal } from './base-modal';
 export { BaseButton } from './base-button';
-export { UserInfoPanel } from './user-info-panel';
-export { UserItem } from './user-item';
-export { ActiveUserPanel } from './active-user-panel';
+

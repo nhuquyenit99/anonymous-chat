@@ -14,7 +14,7 @@ export function BaseList<T extends MinimalItemData = MinimalItemData>({
     className,
 }: BaseListProps<T>) {
     function renderItem() {
-        return data.map((item) => <Item data={item} key={Date.now()} />);
+        return data.map((item) => <Item data={item} key={item.userId} />);
     }
     return (
         <div className={['base-list', className].join(' ')}>{renderItem()}</div>

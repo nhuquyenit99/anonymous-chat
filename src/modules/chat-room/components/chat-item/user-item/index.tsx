@@ -1,41 +1,53 @@
 import React, { useContext, useEffect, useState } from 'react';
 import avatar from 'assets/images/avatar.svg';
-import './style.scss';
-import { getClient } from '../../client';
-import { UserContext, ListMessageContext } from '../../context';
+import '../style.scss';
+import { getClient } from 'client';
+import { UserContext, ListMessageContext } from 'context';
 import { UserModel } from 'models';
 import { Link } from 'react-router-dom';
 
 export function UserItem({ data }: { data: UserModel }) {
     const user = useContext(UserContext);
-    let listMessage = useContext(ListMessageContext);
-
-    const [lastestMessage, setLastestMessage] = useState({ content: '', read: false, time: '' });
+    let listMessageContext = useContext(ListMessageContext);
+    const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
     const chatTopic = `/${[user.userId, data.userId].sort().join('')}`;
 
     useEffect(() => {
         console.log(chatTopic);
-        let newPrivateChannel = { topic: chatTopic, listMessage: [{ content: '', read: false, time: '' }] };
-        listMessage.push(newPrivateChannel);
         getClient().subscribe(chatTopic);
-    });
+        const listPrivateMessage = listMessageContext.listMessage.chatTopic;
+        if (listPrivateMessage) {
+            setLastestMessage(listPrivateMessage[listPrivateMessage.length - 1]);
+        }
+    }, [chatTopic, listMessageContext.listMessage.chatTopic]);
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
                 console.log('Receive message');
-                const mes = message.toString();
-                let date = new Date();
-                const time = date.getHours().toString() + ':' + date.getMinutes().toString();
-                console.log(time);
-                const lastestMes = { content: mes, read: false, time: time };
-                const index = listMessage.findIndex((item) => item.topic === chatTopic);
-                listMessage[index].listMessage.push(lastestMes);
-                console.log(listMessage[index]);
+                const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
+                listMessageContext.listMessage.chatTopic.push(lastestMes);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const configMessage = (message: any) => {
+        const mesArray = message.toString().split(',');
+        const userSendId = mesArray[0];
+        const userSendName = mesArray[1];
+        const mesContent = mesArray[2];
+        return {
+            userId: userSendId,
+            username: userSendName,
+            content: mesContent,
+            read: false,
+            time: getTime()
+        };
+    };
+    const getTime = () => {
+        let date = new Date();
+        return date.getHours().toString() + ':' + date.getMinutes().toString();
+    };
     return (
         <Link to={`/${chatTopic}`}>
             <div className='user-item'>

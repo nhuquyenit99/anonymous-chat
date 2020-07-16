@@ -4,9 +4,9 @@ import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
 // import { ProfilePage } from 'modules/chat-room/pages';
 import mqtt from 'mqtt';
-import { setClient, getClient } from 'client';
+import { setClient } from 'client';
 import { UserContext } from 'context';
-import { UserInfoPanel, ActiveUserPanel } from 'components';
+import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room'),
@@ -57,7 +57,6 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             this.context.userId = userInfo.userId;
             this.context.username = userInfo.username;
         }
-        this.context.activeUsers = [];
         this.setState({ loading: false });
     }
 
