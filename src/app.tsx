@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
-// import { ProfilePage } from 'modules/chat-room/pages';
 import mqtt from 'mqtt';
 import { setClient } from 'client';
 import { UserContext } from 'context';
