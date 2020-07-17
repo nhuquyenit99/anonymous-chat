@@ -5,6 +5,7 @@ import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
 import { setClient } from 'client';
 import { UserContext } from 'context';
+import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room'),
@@ -53,6 +54,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             this.context.auth = true;
             const userInfo = JSON.parse(userInfoString);
             this.context.userId = userInfo.userId;
+            this.context.username = userInfo.username;
         }
         this.setState({ loading: false });
     }
@@ -70,10 +72,12 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         return (
             <BrowserRouter basename="/">
                 <AppWrapper>
+                    <ActiveUserPanel />
                     <Switch>
                         {this.renderRoute()}
                         <Route component={NotFoundPage} />
                     </Switch>
+                    <UserInfoPanel />
                 </AppWrapper>
             </BrowserRouter>
         );
