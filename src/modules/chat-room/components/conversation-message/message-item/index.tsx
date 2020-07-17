@@ -7,7 +7,10 @@ import { UserContext } from 'context';
 export function MessageItem({ data }: { data: MessageType }) {
     const userContext = useContext(UserContext);
     return (
-        <div key={Date.now()} className={`message-item ${data.userId === userContext.userId ? 'right' : 'lefts'}`}>
+        <div
+            key={Date.now()}
+            className={`message-item ${data.userId === userContext.userId ? 'right' : 'lefts'}`}
+            style={{ display: `${(data.userId === '') ? 'none' : 'flex'}` }}>
             <div className='avatar'>
                 <img src={avatar} alt='avatar' />
             </div>
@@ -18,7 +21,6 @@ export function MessageItem({ data }: { data: MessageType }) {
                 </div>
                 <p className='extra'>{data.time}</p>
             </div>
-
         </div >
     );
 }

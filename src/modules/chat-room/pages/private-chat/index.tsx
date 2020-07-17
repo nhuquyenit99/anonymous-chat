@@ -3,15 +3,16 @@ import { ConversationBox } from 'modules/chat-room/components';
 import { UserContext } from 'context';
 import { useParams } from 'react-router-dom';
 
-export function ChatRoomPage() {
-    const user = useContext(UserContext);
+export function PrivateChatRoom() {
+    const userContext = useContext(UserContext);
     let { topic } = useParams();
 
     console.log('render ChatRoomPage');
+    let userId = topic.split(userContext.userId);
 
     return (
         <div style={{ flex: 1 }}>
-            <ConversationBox topic='/public' userInfo={{ userId: 'PUBLIC', username: 'PUBLIC' }} />
+            <ConversationBox topic={topic} userInfo={{ userId: 'PUBLIC', username: 'PUBLIC' }} />
         </div>
     );
 }

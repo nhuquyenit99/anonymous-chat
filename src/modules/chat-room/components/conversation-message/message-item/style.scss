@@ -1,10 +1,10 @@
 .message-item{
     position: relative;
-    display: flex;
     width: 50%;
     height: 4rem;
     margin: var(--spacing-md);
     align-items: center;
+    float: left;
     .avatar {
         width: 2rem;
         height: inherit;
@@ -30,9 +30,6 @@
             font-size: var(--fontSize-sm);
         }
     }
-}
-.left {
-    float: left;
 }
 .right{
     float: right;

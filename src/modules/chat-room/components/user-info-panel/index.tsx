@@ -51,24 +51,13 @@ export function UserInfoPanel() {
         if (userForm.userBio === '' || userForm.username === '') {
             alert('Please input both username and bio');
         } else {
-            setEditMode(false);
-            if (userContext.auth === false) {
-                userContext.auth = true;
-            }
-            console.log(userContext.auth);
-            const userInfo = {
-                userId: userContext.userId,
-                username: userForm.username,
-                userBio: userForm.userBio,
-            };
-            userContext.username = userForm.username;
-            const userInfoString = JSON.stringify(userInfo);
-            localStorage.setItem('user-info', userInfoString);
-
-            userContext.updateUser({
-                username: userForm.username
-            });
             userContext.authenticated();
+            userContext.updateUser({
+                username: userForm.username,
+                userBio: userForm.userBio
+            });
+            userContext.saveData();
+            setEditMode(false);
         }
     };
 

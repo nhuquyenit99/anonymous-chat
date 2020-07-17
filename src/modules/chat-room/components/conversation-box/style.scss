@@ -1,0 +1,8 @@
+.conversation-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .conversation-message{
+        height: 100%;
+    }
+}

@@ -11,20 +11,18 @@ type GroupType = {
 }
 
 type MessageType = {
-    userId: string;
-    username: string;
-    content: string;
-    read: boolean;
-    time: string;
-}
-type ListMessageType = {
-    listMessage: Record<string, Array<MessageType>>;
+    userId: string
+    username: string
+    content: string
+    read: boolean
+    time: string
 }
 
 type UserContextType = {
     auth: boolean
     userId: string
     username: string
+    userBio: string
     activeUsers: Record<string, UserModel>
     favoriteUsers: Record<string, UserModel>
     groups: Record<string, GroupType>
@@ -34,13 +32,14 @@ type UserContextType = {
     addFavoriteUser: (u: any) => void
     removeFavoriteUser: (u: any) => void
     clearActiveUsers: () => void
-
+    saveData: () => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
     auth: false,
     userId: 'userId',
     username: 'Username',
+    userBio: 'Life as a beautiful flower.',
     activeUsers: {},
     favoriteUsers: {},
     groups: {},
@@ -49,7 +48,8 @@ export const UserContext = React.createContext<UserContextType>({
     updateUser: (u: any) => undefined,
     addFavoriteUser: (u: any) => undefined,
     removeFavoriteUser: (u: any) => undefined,
-    clearActiveUsers: () => undefined
+    clearActiveUsers: () => undefined,
+    saveData: () => undefined,
 });
 
 export class UserContextProvider extends React.Component<any, any> {
@@ -57,6 +57,7 @@ export class UserContextProvider extends React.Component<any, any> {
         auth: false,
         userId: Math.random().toString().substring(2),
         username: 'Username',
+        userBio: 'Life as a beautiful flower.',
         activeUsers: {},
         favoriteUsers: {},
         groups: {}
@@ -83,8 +84,8 @@ export class UserContextProvider extends React.Component<any, any> {
 
     updateUser = (user: any) => {
         this.setState({
-            userId: user.userId,
             username: user.username,
+            userBio: user.userBio
         });
     }
 
@@ -114,6 +115,10 @@ export class UserContextProvider extends React.Component<any, any> {
     addGroup = (users: Array<UserModel>) => {
     }
 
+    saveData = () => {
+        localStorage.setItem('user-info', JSON.stringify(this.state));
+    }
+
     render() {
         return (
             <UserContext.Provider value={{
@@ -123,7 +128,8 @@ export class UserContextProvider extends React.Component<any, any> {
                 updateUser: this.updateUser,
                 addFavoriteUser: this.addFavoriteUser,
                 removeFavoriteUser: this.removeFavoriteUser,
-                clearActiveUsers: this.clearActiveUsers
+                clearActiveUsers: this.clearActiveUsers,
+                saveData: this.saveData
             }}>
                 {this.props.children}
             </UserContext.Provider >
@@ -131,13 +137,49 @@ export class UserContextProvider extends React.Component<any, any> {
     }
 }
 
+type ListMessageType = {
+    topic: string
+    listMessage: Array<MessageType>
+}
+type ListMessageContextType = {
+    allListMessage: Array<ListMessageType>
+    addMessage: (topic: string, mes: MessageType) => void
+}
 
-export const ListMessageContext = React.createContext<ListMessageType>({
-    listMessage: {
-        '/public': []
+export const ListMessageContext = React.createContext<ListMessageContextType>({
+    allListMessage: [],
+    addMessage: (topic: string, mes: MessageType) => undefined
+});
+
+export class ListMessageContextProvider extends React.Component<any, any> {
+
+    state = {
+        allListMessage: [
+            { topic: '/public', listMessage: [{ userId: '', username: '', content: '', read: false, time: '' }] }
+        ]
     }
-});
 
-export const FavoriteContext = React.createContext<FavoriteContextType>({
-    listFavorite: []
-});
+    addMessage = (topic: string, mes: MessageType) => {
+        const listMesIndex = this.state.allListMessage.findIndex(list => list.topic === topic);
+        let allList = this.state.allListMessage;
+        if (listMesIndex === -1) {
+            const newListMes = { topic: topic, listMessage: [mes] };
+            allList.push(newListMes);
+        } else {
+            allList[listMesIndex].listMessage.push(mes);
+        }
+        this.setState(allList);
+    }
+    render() {
+        return (
+            <ListMessageContext.Provider
+                value={{
+                    ...this.state,
+                    addMessage: this.addMessage
+                }}
+            >
+                {this.props.children}
+            </ListMessageContext.Provider>
+        );
+    }
+}

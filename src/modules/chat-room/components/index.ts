@@ -5,3 +5,4 @@ export { UserInfoPanel } from './user-info-panel';
 export { ConversationInput } from './conversation-input';
 export { ConversationMessage } from './conversation-message';
 export { ConversationHeader } from './conversation-header';
+export { ConversationBox } from './conversation-box';

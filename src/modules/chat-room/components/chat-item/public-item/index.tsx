@@ -9,11 +9,12 @@ type PublicItemType = {
     activeUsers: number;
 }
 export function PublicItem({ activeUsers }: PublicItemType) {
-    const user = useContext(UserContext);
     console.log('render PublicItem');
+
+    const user = useContext(UserContext);
     const listMessageContext = useContext(ListMessageContext);
 
-    const publicListMes = listMessageContext.listMessage['/public'];
+    const publicListMes = listMessageContext.allListMessage[0].listMessage;
     const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
 
     useEffect(() => {
@@ -25,7 +26,7 @@ export function PublicItem({ activeUsers }: PublicItemType) {
             if (topic === '/public') {
                 console.log('Receive message');
                 const lastestMes = configMessage(message);
-                publicListMes.push(lastestMes);
+                listMessageContext.addMessage('/public', lastestMes);
                 setLastestMessage(lastestMes);
             }
         });

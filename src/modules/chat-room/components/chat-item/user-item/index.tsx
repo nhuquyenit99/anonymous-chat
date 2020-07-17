@@ -15,18 +15,19 @@ export function UserItem({ data }: { data: UserModel }) {
     useEffect(() => {
         console.log(chatTopic);
         getClient().subscribe(chatTopic);
-        const listPrivateMessage = listMessageContext.listMessage.chatTopic;
+        const listPrivateMessage = listMessageContext.allListMessage.find(list => list.topic === chatTopic)?.listMessage;
         if (listPrivateMessage) {
             setLastestMessage(listPrivateMessage[listPrivateMessage.length - 1]);
         }
-    }, [chatTopic, listMessageContext.listMessage.chatTopic]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
                 console.log('Receive message');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
-                listMessageContext.listMessage.chatTopic.push(lastestMes);
+                listMessageContext.addMessage(chatTopic, lastestMes);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
