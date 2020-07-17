@@ -1,7 +1,6 @@
 import React from 'react';
 import { UserModel } from 'models';
 
-
 type FavoriteContextType = {
     listFavorite: Array<UserModel>;
 }
@@ -53,7 +52,7 @@ export const UserContext = React.createContext<UserContextType>({
 export class UserContextProvider extends React.Component<any, any> {
     state = {
         auth: false,
-        userId: 'userId',
+        userId: Math.random().toString().substring(2),
         username: 'Username',
         activeUsers: {},
         favoriteUsers: {},
