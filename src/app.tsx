@@ -5,7 +5,7 @@ import { AppWrapper, NotFoundPage } from 'components';
 // import { ProfilePage } from 'modules/chat-room/pages';
 import mqtt from 'mqtt';
 import { setClient } from 'client';
-import { UserContext } from 'context';
+import { UserContext, UserContextProvider } from 'context';
 import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
@@ -65,6 +65,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             return <Route key={route.path} {...route} />;
         });
     }
+
     render() {
         console.log('render RootApplication');
         if (this.state.loading) {
@@ -73,12 +74,14 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         return (
             <BrowserRouter basename="/">
                 <AppWrapper>
-                    <ActiveUserPanel />
-                    <Switch>
-                        {this.renderRoute()}
-                        <Route component={NotFoundPage} />
-                    </Switch>
-                    <UserInfoPanel />
+                    <UserContextProvider>
+                        <ActiveUserPanel />
+                        <Switch>
+                            {this.renderRoute()}
+                            <Route component={NotFoundPage} />
+                        </Switch>
+                        <UserInfoPanel />
+                    </UserContextProvider>
                 </AppWrapper>
             </BrowserRouter>
         );

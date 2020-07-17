@@ -1,0 +1,26 @@
+.conversation-header{
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm);
+    background: var(--blue-medium);
+    align-items: center;
+    .user-info {
+        display: flex;
+        align-items: center;
+        img {
+            width: 2.2rem;
+            height: 2.2rem;
+        }
+        div {
+            color: white;
+            font-size: 1rem;
+            padding-left: var(--spacing-sm);
+        }
+    }
+    div {
+        .margin-left-sm {
+            margin-left: var(--spacing-sm);
+        }
+    }
+}
