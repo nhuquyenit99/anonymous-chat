@@ -13,7 +13,10 @@ button {
     color: white;
 }
 .btn-white {
-
+    width: 6rem;
+    height: 1.75rem;
+    background-color: white;
+    color: var(--blue-medium);
 }
 .btn-right-top {
     position: absolute;

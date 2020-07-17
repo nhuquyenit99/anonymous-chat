@@ -7,7 +7,7 @@ import { BaseButton } from 'components';
 import './style.scss';
 
 export function UserInfoPanel() {
-    const user = useContext(UserContext);
+    const userContext = useContext(UserContext);
     const [userForm, setUserForm] = useState({
         username: 'Username',
         userBio: 'Life as a beautiful flower.',
@@ -18,10 +18,14 @@ export function UserInfoPanel() {
     useEffect(() => {
         const userInfoString = localStorage.getItem('user-info');
         if (userInfoString) {
-            user.auth = true;
+            userContext.auth = true;
             const userInfo = JSON.parse(userInfoString);
-            user.userId = userInfo.userId;
-            user.username = userInfo.username;
+            userContext.userId = userInfo.userId;
+            userContext.username = userInfo.username;
+            userContext.updateUser({
+                username: userInfo.username,
+            });
+            userContext.authenticated();
             setUserForm(userInfo);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,19 +52,27 @@ export function UserInfoPanel() {
             alert('Please input both username and bio');
         } else {
             setEditMode(false);
-            if (user.auth === false) {
-                user.auth = true;
+            if (userContext.auth === false) {
+                userContext.auth = true;
             }
+            console.log(userContext.auth);
             const userInfo = {
-                userId: user.userId,
+                userId: userContext.userId,
                 username: userForm.username,
                 userBio: userForm.userBio,
             };
-            user.username = userForm.username;
+            userContext.username = userForm.username;
             const userInfoString = JSON.stringify(userInfo);
             localStorage.setItem('user-info', userInfoString);
+
+            userContext.updateUser({
+                username: userForm.username
+            });
+            userContext.authenticated();
         }
     };
+
+    console.log('userContext', userContext);
 
     return (
         <div className="user-info-panel">

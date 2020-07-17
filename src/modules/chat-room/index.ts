@@ -14,6 +14,11 @@ export function setup(module: Module) {
         component: ProfilePage,
     });
     module.route({
+        path: '/private/:topic',
+        exact: false,
+        component: ProfilePage,
+    });
+    module.route({
         path: '/profile',
         exact: false,
         component: ProfilePage,
