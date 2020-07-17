@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { BaseList, BaseModal, UserInfoPanel, PublicItem, UserItem } from 'components';
-import { MessageItem } from 'modules/chat-room/components/message-item';
+import { PublicItem, UserItem } from 'components';
+import { MessageItem, ConversationInput } from 'modules/chat-room/components';
 import { UserContext } from 'context';
 export function ChatRoomPage() {
     const user = useContext(UserContext);
@@ -12,12 +12,13 @@ export function ChatRoomPage() {
         <div>
             <div>This is home page</div>
             <PublicItem />
-            <UserInfoPanel />
+            {/* <UserInfoPanel /> */}
             <UserItem username="Nhim" userId="123456789" />
             <MessageItem data={data} />
             <MessageItem data={data1} />
             <MessageItem data={data} />
-            <MessageItem data={data} />``
+            <MessageItem data={data} />
+            <ConversationInput topic='/public' />
         </div>
     );
 }
