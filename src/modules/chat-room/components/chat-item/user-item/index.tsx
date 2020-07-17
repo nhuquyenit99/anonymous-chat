@@ -40,7 +40,7 @@ export function UserItem({ data }: { data: UserModel }) {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
-            read: false,
+            read: userSendId === user.userId ? true : false,
             time: getTime()
         };
     };

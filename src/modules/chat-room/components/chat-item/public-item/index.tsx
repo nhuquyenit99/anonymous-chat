@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import avatar from 'assets/images/avatar.svg';
 import '../style.scss';
-import { ListMessageContext } from 'context';
+import { ListMessageContext, UserContext } from 'context';
 import { getClient } from 'client';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ type PublicItemType = {
     activeUsers: number;
 }
 export function PublicItem({ activeUsers }: PublicItemType) {
+    const user = useContext(UserContext);
     console.log('render PublicItem');
     const listMessageContext = useContext(ListMessageContext);
 
@@ -39,7 +40,7 @@ export function PublicItem({ activeUsers }: PublicItemType) {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
-            read: false,
+            read: userSendId === user.userId ? true : false,
             time: getTime()
         };
     };

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MessageItem, ConversationInput, PublicItem, UserItem } from 'modules/chat-room/components';
+import { MessageItem, ConversationInput } from 'modules/chat-room/components';
 import { UserContext } from 'context';
 export function ChatRoomPage() {
     const user = useContext(UserContext);
