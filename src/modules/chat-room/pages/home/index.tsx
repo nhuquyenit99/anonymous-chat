@@ -12,7 +12,7 @@ export function ChatRoomPage() {
     const data1 = { userId: user.userId, username: 'Username', content: 'This is a message', read: true, time: '17:12' };
     return (
         <div style={{ flex: 1 }}>
-            <ConversationHeader userId='abc' username='Username ' />
+            <ConversationHeader user={{ userId: 'abc', username: 'Username' }} />
             <MessageItem data={data} />
             <MessageItem data={data1} />
             <MessageItem data={data} />

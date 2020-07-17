@@ -6,6 +6,11 @@ type FavoriteContextType = {
     listFavorite: Array<UserModel>;
 }
 
+type GroupType = {
+    chatId: string;
+    users: Array<UserModel>
+}
+
 type MessageType = {
     userId: string;
     username: string;
@@ -22,9 +27,13 @@ type UserContextType = {
     userId: string
     username: string
     activeUsers: Record<string, UserModel>
+    favoriteUsers: Record<string, UserModel>
+    groups: Record<string, GroupType>
     addActiveUser: (u: UserModel) => void
     authenticated: () => void
     updateUser: (u: any) => void
+    addFavoriteUser: (u: any) => void
+    removeFavoriteUser: (u: any) => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
@@ -32,9 +41,13 @@ export const UserContext = React.createContext<UserContextType>({
     userId: 'userId',
     username: 'Username',
     activeUsers: {},
+    favoriteUsers: {},
+    groups: {},
     addActiveUser: (u: UserModel) => undefined,
     authenticated: () => undefined,
-    updateUser: (u: any) => undefined
+    updateUser: (u: any) => undefined,
+    addFavoriteUser: (u: any) => undefined,
+    removeFavoriteUser: (u: any) => undefined
 });
 
 export class UserContextProvider extends React.Component<any, any> {
@@ -42,7 +55,9 @@ export class UserContextProvider extends React.Component<any, any> {
         auth: false,
         userId: 'userId',
         username: 'Username',
-        activeUsers: {}
+        activeUsers: {},
+        favoriteUsers: {},
+        groups: {}
     }
 
     authenticated = () => {
@@ -71,13 +86,37 @@ export class UserContextProvider extends React.Component<any, any> {
         });
     }
 
+    addFavoriteUser = (user: UserModel) => {
+        console.log('Adding favorite user');
+        this.setState((prev: any) => {
+            return {
+                favoriteUsers: {
+                    ...prev.favoriteUsers,
+                    [user.userId]: user
+                }
+            };
+        });
+    }
+
+    removeFavoriteUser = (user: UserModel) => {
+        this.setState((prev: any) => {
+            delete prev.favoriteUsers[user.userId];
+            return prev;
+        });
+    }
+
+    addGroup = (users: Array<UserModel>) => {
+    }
+
     render() {
         return (
             <UserContext.Provider value={{
                 ...this.state,
                 addActiveUser: this.addActiveUser,
                 authenticated: this.authenticated,
-                updateUser: this.updateUser
+                updateUser: this.updateUser,
+                addFavoriteUser: this.addFavoriteUser,
+                removeFavoriteUser: this.removeFavoriteUser
             }}>
                 {this.props.children}
             </UserContext.Provider >

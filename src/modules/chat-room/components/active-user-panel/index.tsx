@@ -11,7 +11,7 @@ export function ActiveUserPanel() {
     console.log('render ActiveUserPanel');
     const userContext = useContext(UserContext);
 
-    const [activeUsers, setActiveUsers] = useState(Object.values(userContext.activeUsers));
+    //const [activeUsers, setActiveUsers] = useState(Object.values(userContext.activeUsers));
 
     useEffect(() => {
         getClient().subscribe('/new_user');
@@ -29,7 +29,7 @@ export function ActiveUserPanel() {
     }, []);
 
     const sendInfo = () => {
-        setActiveUsers([]);
+        userContext.activeUsers = {};
         const userInfo = {
             userId: userContext.userId,
             username: userContext.username
@@ -46,9 +46,9 @@ export function ActiveUserPanel() {
         };
         console.log('Active User: ', activeUserInfo);
         if (activeUserInfo.userId !== userContext.userId) {
-            userContext.activeUsers[activeUserInfo.userId] = activeUserInfo;
+            userContext.addActiveUser(activeUserInfo);
             console.log('list active users: ', userContext.activeUsers);
-            setActiveUsers(Object.values(userContext.activeUsers));
+            //setActiveUsers(Object.values(userContext.activeUsers));
         }
     };
 
@@ -60,11 +60,17 @@ export function ActiveUserPanel() {
     return (
         <BasePanel title='Chat list' className='blue-header-panel'>
             <PublicItem
-                activeUsers={Object.keys(activeUsers).length} />
-            {activeUsers && (
+                activeUsers={Object.keys(userContext.activeUsers).length} />
+            {Object.values(userContext.favoriteUsers).length !== 0 && (
                 <div>
-                    <p className='title'>{`Active Users (${activeUsers.length})`}</p>
-                    <BaseList<UserModel> data={activeUsers} Item={UserItem} />
+                    <p className='title'>{`Favorite Users (${Object.values(userContext.favoriteUsers).length})`}</p>
+                    <BaseList<UserModel> data={Object.values(userContext.favoriteUsers)} Item={UserItem} />
+                </div>
+            )}
+            {userContext.activeUsers && (
+                <div>
+                    <p className='title'>{`Active Users (${Object.values(userContext.activeUsers).length})`}</p>
+                    <BaseList<UserModel> data={Object.values(userContext.activeUsers)} Item={UserItem} />
                 </div>
             )}
         </BasePanel>
