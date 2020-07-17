@@ -4,7 +4,7 @@ import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
 import { setClient } from 'client';
-import { UserContext } from 'context';
+import { UserContext, UserContextProvider } from 'context';
 import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
@@ -46,7 +46,11 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
 
         mqtt_client.on('connect', () => {
             mqtt_client.subscribe('/public');
-            mqtt_client.publish('/new_user', JSON.stringify(this.context.userId));
+            const userInfo = {
+                userId: this.context.userId,
+                username: this.context.username
+            };
+            mqtt_client.publish('/new_user', JSON.stringify(userInfo));
         });
 
         const userInfoString = localStorage.getItem('user-info');
@@ -64,6 +68,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             return <Route key={route.path} {...route} />;
         });
     }
+
     render() {
         console.log('render RootApplication');
         if (this.state.loading) {
@@ -72,12 +77,14 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         return (
             <BrowserRouter basename="/">
                 <AppWrapper>
-                    <ActiveUserPanel />
-                    <Switch>
-                        {this.renderRoute()}
-                        <Route component={NotFoundPage} />
-                    </Switch>
-                    <UserInfoPanel />
+                    <UserContextProvider>
+                        <ActiveUserPanel />
+                        <Switch>
+                            {this.renderRoute()}
+                            <Route component={NotFoundPage} />
+                        </Switch>
+                        <UserInfoPanel />
+                    </UserContextProvider>
                 </AppWrapper>
             </BrowserRouter>
         );

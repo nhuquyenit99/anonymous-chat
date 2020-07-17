@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 export function NotFoundPage() {
     return (
         <Result
+            style={{ flex: 1 }}
             status="404"
             title="Not found"
             subTitle="Sorry, the page you visited does not exist."
