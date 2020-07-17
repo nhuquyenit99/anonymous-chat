@@ -9,7 +9,7 @@ export function MessageItem({ data }: { data: MessageType }) {
     return (
         <div
             key={Date.now()}
-            className={`message-item ${data.userId === userContext.userId ? 'right' : 'lefts'}`}
+            className={`message-item ${data.userId === userContext.userId ? 'right' : ''}`}
             style={{ display: `${(data.userId === '') ? 'none' : 'flex'}` }}>
             <div className='avatar'>
                 <img src={avatar} alt='avatar' />
@@ -17,7 +17,7 @@ export function MessageItem({ data }: { data: MessageType }) {
             <div className='item-content'>
                 <div>
                     <h5 className="username">{data.username}</h5>
-                    <p className='message'>{data.content}</p>
+                    <div className='message'>{data.content}</div>
                 </div>
                 <p className='extra'>{data.time}</p>
             </div>

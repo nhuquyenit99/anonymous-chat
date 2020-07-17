@@ -17,10 +17,10 @@ export function ConversationBox({ topic, userInfo }: ConversationBoxType) {
     const listMes = listMessageContext.allListMessage.find(list => list.topic === topic)?.listMessage;
     return (
         <div className='conversation-box'>
-            <ConversationHeader user={{ userId: userInfo.userId, username: userInfo.username }} />
-            <div className='conversation-message'>
-                <ConversationMessage data={listMes ? listMes : []} />
-            </div>
+            <ConversationHeader user={userInfo} />
+            {/* <div className='conversation-message'> */}
+            <ConversationMessage data={listMes ? listMes : []} />
+            {/* </div> */}
 
             <ConversationInput topic={topic} />
         </div>

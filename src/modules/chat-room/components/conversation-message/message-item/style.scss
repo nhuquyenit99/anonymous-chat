@@ -1,8 +1,7 @@
 .message-item{
     position: relative;
     width: 50%;
-    height: 4rem;
-    margin: var(--spacing-md);
+    margin: var(--spacing-xs) var(--spacing-xs) 0;
     align-items: center;
     float: left;
     .avatar {
@@ -17,10 +16,10 @@
         margin-left: var(--spacing-sm);
         background: var(--color-gray);
         border-radius: var(--spacing-sm);
-        padding: var(--spacing-xs) var(--spacing-md) 0 var(--spacing-md);
+        padding: var(--spacing-xs) var(--spacing-md);
         div .username{
             font-size: var(--fontSize-md);
-            text-transform: uppercase;
+            // text-transform: uppercase;
             font-weight: bold;
         }
         div .message{

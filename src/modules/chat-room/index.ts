@@ -9,14 +9,14 @@ export function setup(module: Module) {
         component: ChatRoomPage,
     });
     module.route({
-        path: '/:topic',
-        exact: false,
+        path: '/:userId',
+        exact: true,
         component: PrivateChatRoom,
     });
     module.route({
-        path: '/favorite/:topic',
+        path: '/favorite/:userId',
         exact: false,
-        component: ChatRoomPage,
+        component: PrivateChatRoom,
     });
     module.route({
         path: '/profile',

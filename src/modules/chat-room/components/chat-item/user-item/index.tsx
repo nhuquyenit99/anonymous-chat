@@ -50,7 +50,7 @@ export function UserItem({ data }: { data: UserModel }) {
         return date.getHours().toString() + ':' + date.getMinutes().toString();
     };
     return (
-        <Link to={`/${chatTopic}`}>
+        <Link to={`/${data.userId}`}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />

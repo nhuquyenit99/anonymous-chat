@@ -24,6 +24,7 @@ export function UserInfoPanel() {
             userContext.username = userInfo.username;
             userContext.updateUser({
                 username: userInfo.username,
+                userBio: userInfo.userBio
             });
             userContext.authenticated();
             setUserForm(userInfo);
