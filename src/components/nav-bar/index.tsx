@@ -8,14 +8,15 @@ import './style.scss';
 export function NavBar() {
     const [show, showMenu] = useState(false);
     return (
-        <div className={`nav-bar ${show && 'nav-open'}`}>
-            <Link to="/">
-                <div className="branch-name">
-                    {`${getConfig('BRANCH_NAME')}`}
-                    <MenuOutlined className="menu-toggle" onClick={() => showMenu(state => !state)} />
-                </div>
-            </Link>
-            <div className="nav-item">
+        <>
+            <div className={`nav-bar ${show && 'nav-open'}`}>
+                <Link to="/">
+                    <div className="branch-name">
+                        {`${getConfig('BRANCH_NAME')}`}
+                        <MenuOutlined className="menu-toggle" onClick={() => showMenu(state => !state)} />
+                    </div>
+                </Link>
+                {/* <div className="nav-item">
                 <Link to="/">
                     Home
                 </Link>
@@ -24,8 +25,11 @@ export function NavBar() {
                 <Link to="/profile">
                     Profile
                 </Link>
+            </div> */}
+                <div className="nav-item nav-item-right">Login&nbsp;&nbsp;&nbsp;</div>
             </div>
-            <div className="nav-item nav-item-right">Login&nbsp;&nbsp;&nbsp;</div>
-        </div>
+            <div>
+            </div>
+        </>
     );
 }

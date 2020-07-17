@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { PublicItem, UserItem } from 'components';
 import { MessageItem, ConversationInput } from 'modules/chat-room/components';
 import { UserContext } from 'context';
 export function ChatRoomPage() {
@@ -10,10 +9,7 @@ export function ChatRoomPage() {
     const data1 = { userId: user.userId, username: 'Username', content: 'This is a message', read: true, time: '17:12' };
     return (
         <div>
-            <div>This is home page</div>
-            <PublicItem />
-            {/* <UserInfoPanel /> */}
-            <UserItem username="Nhim" userId="123456789" />
+            <div style={{ flex: 1 }}>This is home page</div>
             <MessageItem data={data} />
             <MessageItem data={data1} />
             <MessageItem data={data} />

@@ -21,9 +21,11 @@ export function UserInfoPanel() {
             user.auth = true;
             const userInfo = JSON.parse(userInfoString);
             user.userId = userInfo.userId;
+            user.username = userInfo.username;
             setUserForm(userInfo);
         }
-    }, [user.auth, user.userId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onChangeUserNameHandler = (e: any) => {
         const text = e.target.value;
