@@ -25,7 +25,7 @@ function ConversationHeaderLayout({ user, children }: ConversationLayout) {
 
 export function ConversationHeader({ user }: { user: UserModel }) {
     const userContext = useContext(UserContext);
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     const addHandler = () => {
         setShowModal(true);
@@ -37,7 +37,6 @@ export function ConversationHeader({ user }: { user: UserModel }) {
 
     if (user.username === 'PUBLIC')
         return <ConversationHeaderLayout user={user} >
-            <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
         </ConversationHeaderLayout>;
     if (userContext.auth && userContext.favoriteUsers[user.userId])
         return (

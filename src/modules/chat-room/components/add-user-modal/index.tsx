@@ -15,6 +15,15 @@ type AddUserModalType = {
 export function AddUserModal(
     { userId, title, visible, modalClose }: AddUserModalType
 ) {
+    // const tempData = [
+    //     { userId: 'abc', username: 'Viet' },
+    //     { userId: 'ac', username: 'Han' },
+    //     { userId: 'aabc', username: 'Ngan' },
+    //     { userId: 'afffc', username: 'Hoa' },
+    //     { userId: 'abcd', username: 'Hoang' },
+    //     { userId: 'abcsss', username: 'Nhat' }
+    // ];
+
     const userContext = useContext(UserContext);
 
     const [data, setData] = useState([{ userId: '', username: '' }]);
@@ -28,13 +37,8 @@ export function AddUserModal(
     const onKeyDownHandler = (e: any) => {
         if (e.keyCode === 13) {
             console.log(searchValue.length);
-            const textLength = searchValue.length;
-            const newData = Object.values(userContext.activeUsers).filter((user) => {
-                console.log('username slice: ', user.username.slice(0, textLength - 1));
-                if (user.username.slice(0, textLength - 1).toLowerCase() === searchValue.toLowerCase()) {
-                }
-                return user;
-            });
+            const newData = Object.values(userContext.activeUsers).filter((user) =>
+                (user.username.toLowerCase().includes(searchValue)));
             setData(newData);
         }
     };
@@ -43,16 +47,17 @@ export function AddUserModal(
         const text = e.target.value;
         console.log(text);
         setSearchValue(text);
+        setData(Object.values(userContext.activeUsers).filter((user) => user.userId !== userId));
     };
 
     return (
         <BaseModal title={title} visible={visible} modalClose={modalClose}>
-            <input className='btn-search' type='search'
+            <input className='input-search' type='search'
                 placeholder='Search...' value={searchValue}
                 onChange={onChangeSearchHandler}
                 onKeyDown={onKeyDownHandler} />
             {(data.length > 0) ? <BaseList<UserModel> data={data} Item={AddUserItem} /> :
-                <p className='noti'>There is no one else!</p>}
+                <p className='noti'>There is no one!</p>}
         </BaseModal>
     );
 }
