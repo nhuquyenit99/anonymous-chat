@@ -32,7 +32,7 @@ type UserContextType = {
     addFavoriteUser: (u: any) => void
     removeFavoriteUser: (u: any) => void
     clearActiveUsers: () => void
-    saveData: () => void
+    updateAllInfo: (info: StateType) => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
@@ -49,22 +49,44 @@ export const UserContext = React.createContext<UserContextType>({
     addFavoriteUser: (u: any) => undefined,
     removeFavoriteUser: (u: any) => undefined,
     clearActiveUsers: () => undefined,
-    saveData: () => undefined,
+    updateAllInfo: (info: StateType) => undefined
 });
 
-export class UserContextProvider extends React.Component<any, any> {
-    state = {
-        auth: false,
-        userId: Math.random().toString().substring(2),
-        username: 'Username',
-        userBio: 'Life as a beautiful flower.',
-        activeUsers: {},
-        favoriteUsers: {},
-        groups: {}
+type StateType = {
+    auth: boolean
+    userId: string
+    username: string
+    userBio: string
+    activeUsers: Record<string, UserModel>
+    favoriteUsers: Record<string, UserModel>
+    groups: Record<string, GroupType>
+}
+
+export class UserContextProvider extends React.Component<any, StateType> {
+    constructor(props: any) {
+        super(props);
+        const userInfoString = localStorage.getItem('user-info');
+        if (userInfoString) {
+            const userInfo = JSON.parse(userInfoString);
+            this.state = userInfo;
+        }
+        else {
+            this.state = {
+                auth: false,
+                userId: Math.random().toString().substring(2),
+                username: 'Username',
+                userBio: 'Life as a beautiful flower.',
+                activeUsers: {},
+                favoriteUsers: {},
+                groups: {}
+            };
+        }
+        console.log(this.state);
     }
 
+
     authenticated = () => {
-        this.setState({ auth: true });
+        this.setState({ auth: true }, this.saveData);
     }
 
     logout = () => {
@@ -79,18 +101,25 @@ export class UserContextProvider extends React.Component<any, any> {
                     [user.userId]: user
                 }
             };
-        });
+        }, this.saveData);
     }
 
     updateUser = (user: any) => {
         this.setState({
-            username: user.username,
+            username: user.username
+        }, this.saveData);
+        this.setState({
             userBio: user.userBio
+        }, this.saveData);
+    };
+
+    updateAllInfo = (info: StateType) => {
+        this.setState(info, () => {
+            console.log(this.state);
         });
     }
-
     clearActiveUsers = () => {
-        this.setState({ activeUsers: {} });
+        this.setState({ activeUsers: {} }, this.saveData);
     }
 
     addFavoriteUser = (user: UserModel) => {
@@ -102,14 +131,14 @@ export class UserContextProvider extends React.Component<any, any> {
                     [user.userId]: user
                 }
             };
-        });
+        }, this.saveData);
     }
 
     removeFavoriteUser = (user: UserModel) => {
         this.setState((prev: any) => {
             delete prev.favoriteUsers[user.userId];
             return prev;
-        });
+        }, this.saveData);
     }
 
     addGroup = (users: Array<UserModel>) => {
@@ -129,7 +158,7 @@ export class UserContextProvider extends React.Component<any, any> {
                 addFavoriteUser: this.addFavoriteUser,
                 removeFavoriteUser: this.removeFavoriteUser,
                 clearActiveUsers: this.clearActiveUsers,
-                saveData: this.saveData
+                updateAllInfo: this.updateAllInfo
             }}>
                 {this.props.children}
             </UserContext.Provider >

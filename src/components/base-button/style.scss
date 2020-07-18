@@ -28,3 +28,13 @@ button {
     top: var(--spacing-sm);
     left: var(--spacing-sm)
 }
+.btn-white-small{
+    text-transform: uppercase;
+    color: black;
+    background: white;
+    border: none;
+    width: 4rem;
+    height: 1.8rem;
+    margin-top: 0.2rem;
+    font-weight: bold;
+}

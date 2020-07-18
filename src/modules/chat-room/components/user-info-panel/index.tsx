@@ -9,28 +9,11 @@ import './style.scss';
 export function UserInfoPanel() {
     const userContext = useContext(UserContext);
     const [userForm, setUserForm] = useState({
-        username: 'Username',
-        userBio: 'Life as a beautiful flower.',
+        username: userContext.username,
+        userBio: userContext.userBio,
     });
 
     const [editMode, setEditMode] = useState(false);
-
-    useEffect(() => {
-        const userInfoString = localStorage.getItem('user-info');
-        if (userInfoString) {
-            userContext.auth = true;
-            const userInfo = JSON.parse(userInfoString);
-            userContext.userId = userInfo.userId;
-            userContext.username = userInfo.username;
-            userContext.updateUser({
-                username: userInfo.username,
-                userBio: userInfo.userBio
-            });
-            userContext.authenticated();
-            setUserForm(userInfo);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const onChangeUserNameHandler = (e: any) => {
         const text = e.target.value;
@@ -57,13 +40,17 @@ export function UserInfoPanel() {
                 username: userForm.username,
                 userBio: userForm.userBio
             });
-            userContext.saveData();
             setEditMode(false);
         }
     };
-
-    console.log('userContext', userContext);
-
+    const onCancelHandler = () => {
+        setUserForm({
+            username: userContext.username,
+            userBio: userContext.userBio
+        });
+        setEditMode(false);
+    };
+    //console.log('userContext', userContext);
     return (
         <div className="user-info-panel">
             <div className="user-info-body">
@@ -76,7 +63,7 @@ export function UserInfoPanel() {
                     <div>
                         <BaseButton
                             className="btn-blue btn-left-top"
-                            onClick={() => setEditMode(false)}>
+                            onClick={onCancelHandler}>
                             Cancel
                         </BaseButton>
                         <BaseButton

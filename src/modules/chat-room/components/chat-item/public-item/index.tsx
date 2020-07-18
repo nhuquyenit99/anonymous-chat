@@ -11,7 +11,7 @@ type PublicItemType = {
 export function PublicItem({ activeUsers }: PublicItemType) {
     console.log('render PublicItem');
 
-    const user = useContext(UserContext);
+    const userContext = useContext(UserContext);
     const listMessageContext = useContext(ListMessageContext);
 
     const publicListMes = listMessageContext.allListMessage[0].listMessage;
@@ -26,8 +26,13 @@ export function PublicItem({ activeUsers }: PublicItemType) {
             if (topic === '/public') {
                 console.log('Receive message');
                 const lastestMes = configMessage(message);
-                listMessageContext.addMessage('/public', lastestMes);
                 setLastestMessage(lastestMes);
+                console.log('lastestMes.userId !== userContext.userId', lastestMes.userId, userContext.userId, lastestMes.userId !== userContext.userId);
+
+                if (lastestMes.userId !== userContext.userId) {
+                    listMessageContext.addMessage('/public', lastestMes);
+                }
+                console.log('list public message', listMessageContext.allListMessage[0]);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,13 +46,17 @@ export function PublicItem({ activeUsers }: PublicItemType) {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
-            read: userSendId === user.userId ? true : false,
+            read: userSendId === userContext.userId ? true : false,
             time: getTime()
         };
     };
     const getTime = () => {
         let date = new Date();
-        return date.getHours().toString() + ':' + date.getMinutes().toString();
+        let hour = date.getHours().toString();
+        if (hour.length === 1) hour = '0' + hour;
+        let minute = date.getMinutes().toString();
+        if (minute.length === 1) minute = '0' + minute;
+        return hour + ':' + minute;
     };
     return (
         <Link to="/">

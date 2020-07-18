@@ -7,10 +7,10 @@ import { UserModel } from 'models';
 import { Link } from 'react-router-dom';
 
 export function UserItem({ data }: { data: UserModel }) {
-    const user = useContext(UserContext);
+    const userContext = useContext(UserContext);
     let listMessageContext = useContext(ListMessageContext);
     const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
-    const chatTopic = `/${[user.userId, data.userId].sort().join('')}`;
+    const chatTopic = `/${[userContext.userId, data.userId].sort().join('')}`;
 
     useEffect(() => {
         console.log(chatTopic);
@@ -27,7 +27,9 @@ export function UserItem({ data }: { data: UserModel }) {
                 console.log('Receive message');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
-                listMessageContext.addMessage(chatTopic, lastestMes);
+                if (lastestMes.userId !== userContext.userId) {
+                    listMessageContext.addMessage(chatTopic, lastestMes);
+                }
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,13 +43,17 @@ export function UserItem({ data }: { data: UserModel }) {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
-            read: userSendId === user.userId ? true : false,
+            read: userSendId === userContext.userId ? true : false,
             time: getTime()
         };
     };
     const getTime = () => {
         let date = new Date();
-        return date.getHours().toString() + ':' + date.getMinutes().toString();
+        let hour = date.getHours().toString();
+        if (hour.length === 1) hour = '0' + hour;
+        let minute = date.getMinutes().toString();
+        if (minute.length === 1) minute = '0' + minute;
+        return hour + ':' + minute;
     };
     return (
         <Link to={`/${data.userId}`}>
