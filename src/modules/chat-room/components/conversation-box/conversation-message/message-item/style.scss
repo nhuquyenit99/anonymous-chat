@@ -6,8 +6,7 @@
     float: left;
     .avatar {
         width: 2rem;
-        height: inherit;
-
+        height: 2rem;
     }
     .item-content{
         flex-grow: 1;
@@ -33,9 +32,7 @@
 .right{
     float: right;
     .avatar {
-        img{
-            display: none;
-        }
+        display: none;
     }
     .item-content{
         background: var(--blue-light);

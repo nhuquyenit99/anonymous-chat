@@ -6,14 +6,25 @@ import { UserContext, ListMessageContext } from 'context';
 import { UserModel } from 'models';
 import { Link } from 'react-router-dom';
 
-export function UserItem({ data }: { data: UserModel }) {
+type UserItemType = {
+    userId: string
+    username: string
+    favorite?: boolean
+}
+
+export function UserItem({ data }: { data: UserItemType }) {
+    console.log('UserItem data: ', data);
     const userContext = useContext(UserContext);
     let listMessageContext = useContext(ListMessageContext);
     const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
-    const chatTopic = `/${[userContext.userId, data.userId].sort().join('')}`;
-
+    let chatTopic: string;
+    if (data.favorite) {
+        chatTopic = `/favorite/${[userContext.userId, data.userId].sort().join('')}`;
+    } else {
+        chatTopic = `/${[userContext.userId, data.userId].sort().join('')}`;
+    }
+    console.log(chatTopic);
     useEffect(() => {
-        console.log(chatTopic);
         getClient().subscribe(chatTopic);
         const listPrivateMessage = listMessageContext.allListMessage.find(list => list.topic === chatTopic)?.listMessage;
         if (listPrivateMessage) {
@@ -56,7 +67,7 @@ export function UserItem({ data }: { data: UserModel }) {
         return hour + ':' + minute;
     };
     return (
-        <Link to={`/${data.userId}`}>
+        <Link to={chatTopic}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />

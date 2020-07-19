@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react';
-import { ConversationHeader } from '../conversation-header';
-import { ConversationMessage } from '../conversation-message';
-import { ConversationInput } from '../conversation-input';
+import { ConversationHeader, ConversationInput, ConversationMessage } from 'modules/chat-room/components';
+import { } from './conversation-message';
+import { } from './conversation-input';
 import { ListMessageContext } from 'context';
 import './style.scss';
 import { UserModel } from 'models';

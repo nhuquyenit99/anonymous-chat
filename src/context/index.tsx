@@ -1,9 +1,5 @@
 import React from 'react';
-import { UserModel } from 'models';
-
-type FavoriteContextType = {
-    listFavorite: Array<UserModel>;
-}
+import { UserModel, FavoriteType } from 'models';
 
 type GroupType = {
     chatId: string;
@@ -24,7 +20,7 @@ type UserContextType = {
     username: string
     userBio: string
     activeUsers: Record<string, UserModel>
-    favoriteUsers: Record<string, UserModel>
+    favoriteUsers: Record<string, FavoriteType>
     groups: Record<string, GroupType>
     addActiveUser: (u: UserModel) => void
     authenticated: () => void
@@ -58,7 +54,7 @@ type StateType = {
     username: string
     userBio: string
     activeUsers: Record<string, UserModel>
-    favoriteUsers: Record<string, UserModel>
+    favoriteUsers: Record<string, FavoriteType>
     groups: Record<string, GroupType>
 }
 
@@ -83,7 +79,6 @@ export class UserContextProvider extends React.Component<any, StateType> {
         }
         console.log(this.state);
     }
-
 
     authenticated = () => {
         this.setState({ auth: true }, this.saveData);
@@ -128,17 +123,16 @@ export class UserContextProvider extends React.Component<any, StateType> {
             return {
                 favoriteUsers: {
                     ...prev.favoriteUsers,
-                    [user.userId]: user
+                    [user.userId]: { ...user, favorite: true }
                 }
             };
         }, this.saveData);
     }
 
     removeFavoriteUser = (user: UserModel) => {
-        this.setState((prev: any) => {
-            delete prev.favoriteUsers[user.userId];
-            return prev;
-        }, this.saveData);
+        const favoriteUsers = this.state.favoriteUsers;
+        delete favoriteUsers[user.userId];
+        this.setState({ favoriteUsers: favoriteUsers }, this.saveData);
     }
 
     addGroup = (users: Array<UserModel>) => {

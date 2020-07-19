@@ -11,3 +11,8 @@ export type MessageType = {
     read: boolean;
     time: string;
 }
+export type FavoriteType = {
+    userId: string
+    username: string
+    favorite: boolean
+}

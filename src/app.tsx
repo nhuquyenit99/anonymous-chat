@@ -51,16 +51,10 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
                 username: this.context.username
             };
             mqtt_client.publish('/new_user', JSON.stringify(userInfo));
+
+            this.setState({ loading: false });
         });
 
-        const userInfoString = localStorage.getItem('user-info');
-        if (userInfoString) {
-            this.context.auth = true;
-            const userInfo = JSON.parse(userInfoString);
-            this.context.userId = userInfo.userId;
-            this.context.username = userInfo.username;
-        }
-        this.setState({ loading: false });
     }
     componentWillUnmount() {
     }
@@ -74,12 +68,12 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
     render() {
         console.log('render RootApplication');
         if (this.state.loading) {
-            return <span>Loading</span>;
+            return <span>Loading...</span>;
         }
         return (
-            <BrowserRouter basename="/">
-                <AppWrapper>
-                    <UserContextProvider>
+            <UserContextProvider>
+                <BrowserRouter basename="/">
+                    <AppWrapper>
                         <ListMessageContextProvider>
                             <ActiveUserPanel />
                             <Switch>
@@ -88,9 +82,9 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
                             </Switch>
                             <UserInfoPanel />
                         </ListMessageContextProvider>
-                    </UserContextProvider>
-                </AppWrapper>
-            </BrowserRouter>
+                    </AppWrapper>
+                </BrowserRouter>
+            </UserContextProvider>
         );
     }
 }

@@ -71,6 +71,8 @@
 
     & .nav-item-right {
         margin-left: auto;
+        font-weight: bold;
+        color: black;
     }
 
     & .branch-name {
@@ -149,4 +151,9 @@
             }
         }
     }
+}
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    margin-right: var(--spacing-xs);
 }

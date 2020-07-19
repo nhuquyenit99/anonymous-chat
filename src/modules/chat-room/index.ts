@@ -1,5 +1,5 @@
 import { Module } from 'core';
-import { ChatRoomPage, ProfilePage, PrivateChatRoom } from './pages';
+import { ChatRoomPage, ProfilePage, PrivateChatRoom, FavoriteChatRoom } from './pages';
 
 export function setup(module: Module) {
     console.log('Setup chat room');
@@ -9,14 +9,14 @@ export function setup(module: Module) {
         component: ChatRoomPage,
     });
     module.route({
-        path: '/:userId',
+        path: '/:topic',
         exact: true,
         component: PrivateChatRoom,
     });
     module.route({
-        path: '/favorite/:userId',
+        path: '/favorite/:topic',
         exact: false,
-        component: PrivateChatRoom,
+        component: FavoriteChatRoom,
     });
     module.route({
         path: '/profile',

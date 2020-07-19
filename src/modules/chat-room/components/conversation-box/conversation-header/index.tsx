@@ -4,7 +4,7 @@ import { BaseButton, BaseModal } from 'components';
 import { UserModel } from 'models';
 import './style.scss';
 import { UserContext } from 'context';
-import { AddUserModal } from '../add-user-modal';
+import { AddUserModal } from 'modules/chat-room/components';
 
 type ConversationLayout = {
     user: UserModel
@@ -27,6 +27,14 @@ export function ConversationHeader({ user }: { user: UserModel }) {
     const userContext = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
 
+    const addFavoriteHandler = () => {
+        userContext.addFavoriteUser(user);
+    };
+    const removeFavoriteUserHandler = () => {
+        userContext.removeFavoriteUser(user);
+        //window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
+    };
+
     const addHandler = () => {
         setShowModal(true);
     };
@@ -35,26 +43,28 @@ export function ConversationHeader({ user }: { user: UserModel }) {
         setShowModal(false);
     };
 
-    if (user.username === 'PUBLIC')
-        return <ConversationHeaderLayout user={user} >
-        </ConversationHeaderLayout>;
     if (userContext.auth && userContext.favoriteUsers[user.userId])
         return (
             <ConversationHeaderLayout user={user} >
                 <div>
-                    <BaseButton className="btn-white" onClick={() => userContext.removeFavoriteUser(user)}>Unfavorite</BaseButton>
+                    <BaseButton className="btn-white" onClick={removeFavoriteUserHandler}>
+                        Unfavorite
+                    </BaseButton>
                     <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
                 </div>
                 <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
             </ConversationHeaderLayout>
         );
-    return (
-        <ConversationHeaderLayout user={user}>
-            <div>
-                <BaseButton className="btn-white" onClick={() => userContext.addFavoriteUser(user)}>Favorite</BaseButton>
-                <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
-                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
-            </div>
-        </ConversationHeaderLayout >
-    );
+    if (userContext.auth && !userContext.favoriteUsers[user.userId])
+        return (
+            <ConversationHeaderLayout user={user}>
+                <div>
+                    <BaseButton className="btn-white" onClick={addFavoriteHandler}>Favorite</BaseButton>
+                    <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
+                    <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
+                </div>
+            </ConversationHeaderLayout >
+        );
+    return <ConversationHeaderLayout user={user} />;
+
 } 
