@@ -41,7 +41,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             clientId: Math.random().toString().substring(2),
         };
 
-        const mqtt_client = mqtt.connect('wss://test.mosquitto.org:8081', options);
+        const mqtt_client = mqtt.connect('ws://178.128.90.235:8083', options);
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
@@ -69,8 +69,8 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             return <span>Loading...</span>;
         }
         return (
-            <BrowserRouter basename="/">
-                <UserContextProvider>
+            <UserContextProvider>
+                <BrowserRouter basename="/">
                     <AppWrapper>
                         <ListMessageContextProvider>
                             <ActiveUserPanel />
@@ -81,8 +81,8 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
                             <UserInfoPanel />
                         </ListMessageContextProvider>
                     </AppWrapper>
-                </UserContextProvider>
-            </BrowserRouter>
+                </BrowserRouter>
+            </UserContextProvider>
         );
     }
 }

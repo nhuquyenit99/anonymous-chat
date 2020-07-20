@@ -12,7 +12,7 @@ export function PrivateChatRoom() {
 
     if (userContext.activeUsers[userId])
         return (
-            <ConversationBox topic={topic} userInfo={userContext.activeUsers[userId]} />
+            <ConversationBox topic={`/${topic}`} userInfo={userContext.activeUsers[userId]} />
         );
     return (<NotFoundPage />);
 }

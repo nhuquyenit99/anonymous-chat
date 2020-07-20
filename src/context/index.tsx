@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserModel, FavoriteType, GroupType } from 'models';
+import { UserModel, GroupType } from 'models';
 
 type MessageType = {
     userId: string
@@ -15,7 +15,7 @@ type UserContextType = {
     username: string
     userBio: string
     activeUsers: Record<string, UserModel>
-    favoriteUsers: Record<string, FavoriteType>
+    favoriteUsers: Record<string, UserModel>
     groups: Record<string, GroupType>
     addActiveUser: (u: UserModel) => void
     authenticated: () => void
@@ -51,7 +51,7 @@ type StateType = {
     username: string
     userBio: string
     activeUsers: Record<string, UserModel>
-    favoriteUsers: Record<string, FavoriteType>
+    favoriteUsers: Record<string, UserModel>
     groups: Record<string, GroupType>
 }
 
@@ -120,7 +120,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
             return {
                 favoriteUsers: {
                     ...prev.favoriteUsers,
-                    [user.userId]: { ...user, favorite: true }
+                    [user.userId]: user
                 }
             };
         }, this.saveData);

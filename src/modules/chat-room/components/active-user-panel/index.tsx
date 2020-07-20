@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { BasePanel, BaseList } from 'components';
 import { UserContext } from 'context';
-import { UserModel, FavoriteType, GroupType } from 'models';
+import { UserModel, GroupType } from 'models';
 import { getClient } from 'client';
 import { PublicItem, UserItem, GroupItem } from 'modules/chat-room/components';
 import './style.scss';
+import { FavoriteItem } from '../chat-item/favorite-item';
 
 export function ActiveUserPanel() {
     console.log('render ActiveUserPanel');
@@ -63,7 +64,7 @@ export function ActiveUserPanel() {
             {Object.values(userContext.favoriteUsers).length !== 0 && (
                 <div>
                     <p className='title'>{`Favorite Users (${Object.values(userContext.favoriteUsers).length})`}</p>
-                    <BaseList<FavoriteType> data={Object.values(userContext.favoriteUsers)} Item={UserItem} />
+                    <BaseList<UserModel> data={Object.values(userContext.favoriteUsers)} Item={FavoriteItem} />
                 </div>
             )}
             {Object.values(userContext.groups).length !== 0 && (
