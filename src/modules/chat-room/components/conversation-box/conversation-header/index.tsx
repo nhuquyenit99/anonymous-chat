@@ -43,6 +43,20 @@ export function ConversationHeader({ user }: { user: UserModel }) {
         setShowModal(false);
     };
 
+    const addUserHandler = (u: UserModel) => {
+        const myInfo = {
+            userId: userContext.userId,
+            username: userContext.username
+        };
+        userContext.addGroup([myInfo, user, u]);
+        setShowModal(false);
+        // window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
+    };
+
+    if (user.username === 'PUBLIC' || userContext.auth === false) {
+        return <ConversationHeaderLayout user={user} />;
+    }
+
     if (userContext.auth && userContext.favoriteUsers[user.userId])
         return (
             <ConversationHeaderLayout user={user} >
@@ -52,19 +66,17 @@ export function ConversationHeader({ user }: { user: UserModel }) {
                     </BaseButton>
                     <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
                 </div>
-                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
+                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} addUser={addUserHandler} />
             </ConversationHeaderLayout>
         );
-    if (userContext.auth && !userContext.favoriteUsers[user.userId])
-        return (
-            <ConversationHeaderLayout user={user}>
-                <div>
-                    <BaseButton className="btn-white" onClick={addFavoriteHandler}>Favorite</BaseButton>
-                    <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
-                    <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} />
-                </div>
-            </ConversationHeaderLayout >
-        );
-    return <ConversationHeaderLayout user={user} />;
+    return (
+        <ConversationHeaderLayout user={user}>
+            <div>
+                <BaseButton className="btn-white" onClick={addFavoriteHandler}>Favorite</BaseButton>
+                <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
+                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} addUser={addUserHandler} />
+            </div>
+        </ConversationHeaderLayout >
+    );
 
 } 

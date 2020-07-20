@@ -45,16 +45,14 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
+            this.setState({ loading: false });
             mqtt_client.subscribe('/public');
             const userInfo = {
                 userId: this.context.userId,
                 username: this.context.username
             };
             mqtt_client.publish('/new_user', JSON.stringify(userInfo));
-
-            this.setState({ loading: false });
         });
-
     }
     componentWillUnmount() {
     }

@@ -11,9 +11,6 @@ export function FavoriteChatRoom() {
     let userId = topic.split(userContext.userId).find((item: string) => item !== '');
     console.log('Favorite userId: ', userId);
 
-    // return (
-    //     <ConversationBox topic={topic} userInfo={user} />
-    // );
     if (userContext.favoriteUsers[userId]) {
         const userInfo = userContext.favoriteUsers[userId];
         const user = {
@@ -21,7 +18,7 @@ export function FavoriteChatRoom() {
             username: userInfo.username
         };
         return (
-            <ConversationBox topic={topic} userInfo={user} />
+            <ConversationBox topic={`/favorite/${topic}`} userInfo={user} />
         );
     }
 

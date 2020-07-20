@@ -1,10 +1,5 @@
 import React from 'react';
-import { UserModel, FavoriteType } from 'models';
-
-type GroupType = {
-    chatId: string;
-    users: Array<UserModel>
-}
+import { UserModel, FavoriteType, GroupType } from 'models';
 
 type MessageType = {
     userId: string
@@ -29,6 +24,7 @@ type UserContextType = {
     removeFavoriteUser: (u: any) => void
     clearActiveUsers: () => void
     updateAllInfo: (info: StateType) => void
+    addGroup: (users: Array<UserModel>) => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
@@ -45,7 +41,8 @@ export const UserContext = React.createContext<UserContextType>({
     addFavoriteUser: (u: any) => undefined,
     removeFavoriteUser: (u: any) => undefined,
     clearActiveUsers: () => undefined,
-    updateAllInfo: (info: StateType) => undefined
+    updateAllInfo: (info: StateType) => undefined,
+    addGroup: (users: Array<UserModel>) => undefined
 });
 
 type StateType = {
@@ -136,6 +133,18 @@ export class UserContextProvider extends React.Component<any, StateType> {
     }
 
     addGroup = (users: Array<UserModel>) => {
+        const chatId = users.map(user => user.userId).sort().join('');
+        this.setState((prev: any) => {
+            return {
+                groups: {
+                    ...prev.groups,
+                    [chatId]: {
+                        userId: chatId,
+                        users: users
+                    }
+                }
+            };
+        }, this.saveData);
     }
 
     saveData = () => {
@@ -152,7 +161,8 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 addFavoriteUser: this.addFavoriteUser,
                 removeFavoriteUser: this.removeFavoriteUser,
                 clearActiveUsers: this.clearActiveUsers,
-                updateAllInfo: this.updateAllInfo
+                updateAllInfo: this.updateAllInfo,
+                addGroup: this.addGroup
             }}>
                 {this.props.children}
             </UserContext.Provider >
