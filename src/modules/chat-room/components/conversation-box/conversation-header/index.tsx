@@ -26,6 +26,7 @@ function ConversationHeaderLayout({ user, children }: ConversationLayout) {
 export function ConversationHeader({ user }: { user: UserModel }) {
     const userContext = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
+    const isGroup = user.username.includes(',');
 
     const addFavoriteHandler = () => {
         userContext.addFavoriteUser(user);
@@ -44,17 +45,40 @@ export function ConversationHeader({ user }: { user: UserModel }) {
     };
 
     const addUserHandler = (u: UserModel) => {
-        const myInfo = {
-            userId: userContext.userId,
-            username: userContext.username
-        };
-        userContext.addGroup([myInfo, user, u]);
-        setShowModal(false);
-        // window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
+        if (isGroup) {
+            const chatId = user.userId;
+            const usersInGroup = userContext.groups[chatId].users;
+            userContext.addGroup([...usersInGroup, u]);
+            // window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
+        } else {
+            const myInfo = {
+                userId: userContext.userId,
+                username: userContext.username
+            };
+            userContext.addGroup([myInfo, user, u]);
+            setShowModal(false);
+            //window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
+        }
+
     };
 
     if (user.username === 'PUBLIC' || userContext.auth === false) {
         return <ConversationHeaderLayout user={user} />;
+    }
+    if (isGroup) {
+        return (
+            <ConversationHeaderLayout user={user} >
+                <div>
+                    <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
+                </div>
+                <AddUserModal
+                    userId={user.userId}
+                    visible={showModal} title='Add'
+                    modalClose={addCancelHandler}
+                    addUser={addUserHandler}
+                    data={Object.values(userContext.activeUsers)} />
+            </ConversationHeaderLayout>
+        );
     }
 
     if (userContext.auth && userContext.favoriteUsers[user.userId])
@@ -66,7 +90,12 @@ export function ConversationHeader({ user }: { user: UserModel }) {
                     </BaseButton>
                     <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
                 </div>
-                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} addUser={addUserHandler} />
+                <AddUserModal
+                    userId={user.userId}
+                    visible={showModal} title='Add'
+                    modalClose={addCancelHandler}
+                    addUser={addUserHandler}
+                    data={Object.values(userContext.activeUsers)} />
             </ConversationHeaderLayout>
         );
     return (
@@ -74,7 +103,12 @@ export function ConversationHeader({ user }: { user: UserModel }) {
             <div>
                 <BaseButton className="btn-white" onClick={addFavoriteHandler}>Favorite</BaseButton>
                 <BaseButton className="btn-white margin-left-sm" onClick={addHandler}>Add</BaseButton>
-                <AddUserModal userId={user.userId} visible={showModal} title='Add' modalClose={addCancelHandler} addUser={addUserHandler} />
+                <AddUserModal
+                    userId={user.userId}
+                    visible={showModal} title='Add'
+                    modalClose={addCancelHandler}
+                    addUser={addUserHandler}
+                    data={Object.values(userContext.activeUsers)} />
             </div>
         </ConversationHeaderLayout >
     );

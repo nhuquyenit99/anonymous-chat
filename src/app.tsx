@@ -69,8 +69,8 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             return <span>Loading...</span>;
         }
         return (
-            <UserContextProvider>
-                <BrowserRouter basename="/">
+            <BrowserRouter basename="/">
+                <UserContextProvider>
                     <AppWrapper>
                         <ListMessageContextProvider>
                             <ActiveUserPanel />
@@ -81,8 +81,8 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
                             <UserInfoPanel />
                         </ListMessageContextProvider>
                     </AppWrapper>
-                </BrowserRouter>
-            </UserContextProvider>
+                </UserContextProvider>
+            </BrowserRouter>
         );
     }
 }

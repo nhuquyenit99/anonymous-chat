@@ -9,6 +9,7 @@ type AddUserModalType = {
     userId: string
     title: string
     visible: boolean
+    data: Array<UserModel>
     modalClose: () => void
     addUser: (u: UserModel) => void
 }
@@ -20,25 +21,24 @@ type AddUserItemType = {
 }
 
 export function AddUserModal(
-    { userId, title, visible, modalClose, addUser }: AddUserModalType
+    { userId, title, visible, data, modalClose, addUser }: AddUserModalType
 ) {
-    const userContext = useContext(UserContext);
 
-    const [data, setData] = useState([{ userId: '', username: '', onAdd: (u: UserModel) => { } }]);
+    const [userData, setUserData] = useState([{ userId: '', username: '', onAdd: (u: UserModel) => { } }]);
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
-        const newData = configData(Object.values(userContext.activeUsers).filter((user) => user.userId !== userId));
-        setData(newData);
+        const newData = data.filter((user) => user.userId !== userId);
+        setUserData(configData(newData));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onKeyDownHandler = (e: any) => {
         if (e.keyCode === 13) {
             console.log(searchValue.length);
-            const newData = Object.values(userContext.activeUsers).filter((user) =>
+            const newData = data.filter((user) =>
                 (user.username.toLowerCase().includes(searchValue)));
-            setData(configData(newData));
+            setUserData(configData(newData));
         }
     };
 
@@ -46,9 +46,10 @@ export function AddUserModal(
         const text = e.target.value;
         console.log(text);
         setSearchValue(text);
-        const newData = configData(Object.values(userContext.activeUsers).filter((user) => user.userId !== userId));
-        setData(newData);
+        const newData = data.filter((user) => user.userId !== userId);
+        setUserData(configData(newData));
     };
+
 
     const configData = (data: Array<UserModel>) => {
         return data.map((item) => {
@@ -65,7 +66,7 @@ export function AddUserModal(
                 placeholder='Search...' value={searchValue}
                 onChange={onChangeSearchHandler}
                 onKeyDown={onKeyDownHandler} />
-            {(data.length > 0) ? <BaseList<AddUserItemType> data={data} Item={AddUserItem} /> :
+            {(userData.length > 0) ? <BaseList<AddUserItemType> data={userData} Item={AddUserItem} /> :
                 <p className='noti'>There is no one!</p>}
         </BaseModal>
     );
