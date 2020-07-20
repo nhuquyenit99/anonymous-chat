@@ -31,7 +31,7 @@ export function AddUserModal(
         const newData = data.filter((user) => user.userId !== userId);
         setUserData(configData(newData));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [data, userId]);
 
     const onKeyDownHandler = (e: any) => {
         if (e.keyCode === 13) {
