@@ -41,7 +41,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             clientId: Math.random().toString().substring(2),
         };
 
-        const mqtt_client = mqtt.connect('wss://test.mosquitto.org:8081', options);
+        const mqtt_client = mqtt.connect('ws://178.128.90.235:8083', options);
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
@@ -54,6 +54,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             mqtt_client.publish('/new_user', JSON.stringify(userInfo));
         });
     }
+
     componentWillUnmount() {
     }
 
@@ -64,7 +65,6 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
     }
 
     render() {
-        console.log('render RootApplication');
         if (this.state.loading) {
             return <span>Loading...</span>;
         }
