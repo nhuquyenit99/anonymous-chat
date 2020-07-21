@@ -11,25 +11,31 @@ export function ActiveUserPanel() {
     console.log('render ActiveUserPanel');
     const userContext = useContext(UserContext);
 
-    //const [activeUsers, setActiveUsers] = useState(Object.values(userContext.activeUsers));
+    // const [activeUsers, setActiveUsers] = useState(Object.values(userContext.activeUsers));
 
     useEffect(() => {
         getClient().subscribe('/new_user');
         getClient().subscribe('/active_user');
+        getClient().subscribe('/user_out');
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/new_user') {
                 console.log('Have a new user: ', message.toString());
+                addActiveUser(message);
                 sendInfo();
             }
             if (topic === '/active_user') {
                 addActiveUser(message);
+            }
+            if (topic === '/user_out') {
+                console.log('Have a user out :', message.toString());
+                removeActiveUser(message);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const sendInfo = () => {
-        userContext.clearActiveUsers();
+        //userContext.clearActiveUsers();
         const userInfo = {
             userId: userContext.userId,
             username: userContext.username
@@ -39,12 +45,7 @@ export function ActiveUserPanel() {
     };
 
     const addActiveUser = (message: any) => {
-        const userInfoArray = message.toString().split('"');
-        const activeUserInfo = {
-            userId: userInfoArray[3],
-            username: userInfoArray[7]
-        };
-        console.log('Active User: ', activeUserInfo);
+        const activeUserInfo = convertMessageToObject(message);
         if (activeUserInfo.userId !== userContext.userId) {
             userContext.addActiveUser(activeUserInfo);
             console.log('list active users: ', userContext.activeUsers);
@@ -52,11 +53,26 @@ export function ActiveUserPanel() {
         }
     };
 
-    useEffect(() => {
-        setInterval(sendInfo, 60000);
-        return () => {
+    const convertMessageToObject = (message: any) => {
+        const userInfoArray = message.toString().split('"');
+        const activeUserInfo = {
+            userId: userInfoArray[3],
+            username: userInfoArray[7]
         };
-    });
+        return activeUserInfo;
+    };
+
+    const removeActiveUser = (message: any) => {
+        userContext.removeActiveUser(convertMessageToObject(message));
+        console.log('list active users: ', userContext.activeUsers);
+    };
+
+    // useEffect(() => {
+    //     setInterval(sendInfo, 60000);
+    //     return () => {
+    //     };
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
     return (
         <BasePanel title='Chat list' className='blue-header-panel'>
             <PublicItem

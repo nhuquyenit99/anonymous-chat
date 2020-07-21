@@ -30,10 +30,11 @@ export function ConversationHeader({ user }: { user: UserModel }) {
 
     const addFavoriteHandler = () => {
         userContext.addFavoriteUser(user);
+        window.location.href = `/favorite/${[userContext.userId, user.userId].sort().join('')}`;
     };
     const removeFavoriteUserHandler = () => {
         userContext.removeFavoriteUser(user);
-        //window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
+        window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
     };
 
     const addHandler = () => {
@@ -49,7 +50,7 @@ export function ConversationHeader({ user }: { user: UserModel }) {
             const chatId = user.userId;
             const usersInGroup = userContext.groups[chatId].users;
             userContext.addGroup([...usersInGroup, u]);
-            // window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
+            window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
         } else {
             const myInfo = {
                 userId: userContext.userId,
@@ -57,7 +58,7 @@ export function ConversationHeader({ user }: { user: UserModel }) {
             };
             userContext.addGroup([myInfo, user, u]);
             setShowModal(false);
-            //window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
+            window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
         }
 
     };

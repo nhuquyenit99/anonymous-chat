@@ -18,6 +18,7 @@ type UserContextType = {
     favoriteUsers: Record<string, UserModel>
     groups: Record<string, GroupType>
     addActiveUser: (u: UserModel) => void
+    removeActiveUser: (u: UserModel) => void
     authenticated: () => void
     updateUser: (u: any) => void
     addFavoriteUser: (u: any) => void
@@ -36,6 +37,7 @@ export const UserContext = React.createContext<UserContextType>({
     favoriteUsers: {},
     groups: {},
     addActiveUser: (u: UserModel) => undefined,
+    removeActiveUser: (u: UserModel) => undefined,
     authenticated: () => undefined,
     updateUser: (u: any) => undefined,
     addFavoriteUser: (u: any) => undefined,
@@ -94,6 +96,11 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 }
             };
         }, this.saveData);
+    }
+    removeActiveUser = (u: UserModel) => {
+        const activeUsers = this.state.favoriteUsers;
+        delete activeUsers[u.userId];
+        this.setState({ activeUsers: activeUsers }, this.saveData);
     }
 
     updateUser = (user: any) => {
@@ -159,6 +166,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 authenticated: this.authenticated,
                 updateUser: this.updateUser,
                 addFavoriteUser: this.addFavoriteUser,
+                removeActiveUser: this.removeActiveUser,
                 removeFavoriteUser: this.removeFavoriteUser,
                 clearActiveUsers: this.clearActiveUsers,
                 updateAllInfo: this.updateAllInfo,

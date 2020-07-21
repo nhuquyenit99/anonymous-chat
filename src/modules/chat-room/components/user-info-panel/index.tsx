@@ -5,6 +5,7 @@ import { UserContext } from 'context';
 import { BaseButton } from 'components';
 
 import './style.scss';
+import { getClient } from 'client';
 
 export function UserInfoPanel() {
     const userContext = useContext(UserContext);
@@ -41,6 +42,7 @@ export function UserInfoPanel() {
                 userBio: userForm.userBio
             });
             setEditMode(false);
+
         }
     };
     const onCancelHandler = () => {
@@ -49,6 +51,17 @@ export function UserInfoPanel() {
             userBio: userContext.userBio
         });
         setEditMode(false);
+        sendInfo();
+    };
+
+    const sendInfo = () => {
+        //userContext.clearActiveUsers();
+        const userInfo = {
+            userId: userContext.userId,
+            username: userContext.username
+        };
+        const userInfoMes = JSON.stringify(userInfo);
+        getClient().publish('/active_user', userInfoMes);
     };
     //console.log('userContext', userContext);
     return (
