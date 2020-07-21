@@ -31,6 +31,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
             };
             getClient().publish('/user_out', JSON.stringify(userInfo));
             this.context.clearActiveUsers();
+            this.context.groups = {};
         });
     }
 

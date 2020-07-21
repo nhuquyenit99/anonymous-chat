@@ -48,3 +48,20 @@
 .blue-bg {
     background: var(--blue-light);
 }
+.active{
+    background: var(--blue-medium);
+    .item-content{
+        .item-name{
+            color: white;
+        }
+        .lastest-message{
+            color: white;
+        }
+        .unread{
+            color: white;
+        }
+    }
+    .extra{
+        color: white;
+    }
+}

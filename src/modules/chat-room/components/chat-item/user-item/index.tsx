@@ -65,8 +65,16 @@ export function UserItem({ data }: { data: UserItemType }) {
         if (minute.length === 1) minute = '0' + minute;
         return hour + ':' + minute;
     };
+    const onClickHandler = (e: any) => {
+        document.querySelector('.active')?.classList.remove('active');
+        let element = e.target;
+        while (!element.classList.contains('user-item')) {
+            element = element.parentNode;
+        }
+        element.classList.add('active');
+    };
     return (
-        <Link to={chatTopic}>
+        <Link to={chatTopic} onClick={onClickHandler}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />

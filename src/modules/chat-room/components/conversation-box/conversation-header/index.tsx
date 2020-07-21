@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import avatar from 'assets/images/white-avatar.svg';
-import { BaseButton, BaseModal } from 'components';
+import { BaseButton } from 'components';
 import { UserModel } from 'models';
 import './style.scss';
 import { UserContext } from 'context';
 import { AddUserModal } from 'modules/chat-room/components';
+import { getClient } from 'client';
 
 type ConversationLayout = {
     user: UserModel
@@ -56,7 +57,9 @@ export function ConversationHeader({ user }: { user: UserModel }) {
                 userId: userContext.userId,
                 username: userContext.username
             };
+
             userContext.addGroup([myInfo, user, u]);
+            //getClient().publish('/group', JSON.stringify(groupInfo));
             setShowModal(false);
             window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
         }

@@ -15,7 +15,10 @@
     .panel-title{
         width: 100%;
         background: blue;
-        color: white;
-}
-
+        color: white;   
+    }
+    .panel-body{
+        height: 85vh;
+        overflow: auto;
+    }
 }
