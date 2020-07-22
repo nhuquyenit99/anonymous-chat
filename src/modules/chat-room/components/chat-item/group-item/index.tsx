@@ -64,6 +64,7 @@ export function GroupItem({ data }: { data: GroupType }) {
             element = element.parentNode;
         }
         element.classList.add('active');
+        element.childNodes[1].childNodes[1].classList.remove('unread');
     };
     const groupName = data.users.filter(item => item.userId !== userContext.userId).map(item => item.username).join(', ');
     return (

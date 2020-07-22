@@ -66,6 +66,7 @@ export function PublicItem({ activeUsers }: PublicItemType) {
             element = element.parentNode;
         }
         element.classList.add('active');
+        element.childNodes[1].childNodes[1].classList.remove('unread');
     };
 
     return (
