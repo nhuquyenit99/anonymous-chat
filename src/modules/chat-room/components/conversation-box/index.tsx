@@ -1,10 +1,9 @@
 import React, { useContext, useRef } from 'react';
 import { ConversationHeader, ConversationInput, ConversationMessage } from 'modules/chat-room/components';
-import { } from './conversation-message';
-import { } from './conversation-input';
 import { ListMessageContext } from 'context';
-import './style.scss';
 import { UserModel } from 'models';
+
+import './style.scss';
 
 type Props = {
     topic: any
