@@ -3,7 +3,6 @@ import avatar from 'assets/images/avatar.svg';
 import '../style.scss';
 import { getClient } from 'client';
 import { UserContext, ListMessageContext } from 'context';
-import { UserModel } from 'models';
 import { Link } from 'react-router-dom';
 
 type UserItemType = {
@@ -12,14 +11,12 @@ type UserItemType = {
     favorite?: boolean
 }
 
-export function UserItem({ data }: { data: UserItemType }) {
+export function FavoriteItem({ data }: { data: UserItemType }) {
     console.log('UserItem data: ', data);
     const userContext = useContext(UserContext);
     let listMessageContext = useContext(ListMessageContext);
     const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
-
     const chatTopic = `/${[userContext.userId, data.userId].sort().join('')}`;
-
     console.log(chatTopic);
     useEffect(() => {
         getClient().subscribe(chatTopic);
@@ -37,9 +34,6 @@ export function UserItem({ data }: { data: UserItemType }) {
                 console.log('Receive message');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
-                if (lastestMes.userId !== userContext.userId) {
-                    listMessageContext.addMessage(chatTopic, lastestMes);
-                }
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,7 +68,7 @@ export function UserItem({ data }: { data: UserItemType }) {
         element.classList.add('active');
     };
     return (
-        <Link to={chatTopic} onClick={onClickHandler}>
+        <Link to={`/favorite${chatTopic}`} onClick={onClickHandler}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />

@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import avatar from 'assets/images/white-avatar.svg';
-import { BaseButton, BaseModal } from 'components';
+import { BaseButton } from 'components';
 import { UserModel } from 'models';
 import './style.scss';
 import { UserContext } from 'context';
 import { AddUserModal } from 'modules/chat-room/components';
+import { getClient } from 'client';
 
 type ConversationLayout = {
     user: UserModel
@@ -30,10 +31,11 @@ export function ConversationHeader({ user }: { user: UserModel }) {
 
     const addFavoriteHandler = () => {
         userContext.addFavoriteUser(user);
+        window.location.href = `/favorite/${[userContext.userId, user.userId].sort().join('')}`;
     };
     const removeFavoriteUserHandler = () => {
         userContext.removeFavoriteUser(user);
-        //window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
+        window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
     };
 
     const addHandler = () => {
@@ -49,15 +51,17 @@ export function ConversationHeader({ user }: { user: UserModel }) {
             const chatId = user.userId;
             const usersInGroup = userContext.groups[chatId].users;
             userContext.addGroup([...usersInGroup, u]);
-            // window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
+            window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
         } else {
             const myInfo = {
                 userId: userContext.userId,
                 username: userContext.username
             };
+
             userContext.addGroup([myInfo, user, u]);
+            //getClient().publish('/group', JSON.stringify(groupInfo));
             setShowModal(false);
-            //window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
+            window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
         }
 
     };

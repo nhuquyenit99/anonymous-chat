@@ -58,9 +58,19 @@ export function PublicItem({ activeUsers }: PublicItemType) {
         if (minute.length === 1) minute = '0' + minute;
         return hour + ':' + minute;
     };
+
+    const onClickHandler = (e: any) => {
+        document.querySelector('.active')?.classList.remove('active');
+        let element = e.target;
+        while (!element.classList.contains('user-item')) {
+            element = element.parentNode;
+        }
+        element.classList.add('active');
+    };
+
     return (
-        <Link to="/">
-            <div className='user-item blue-bg'>
+        <Link to="/" onClick={onClickHandler}>
+            <div className='user-item blue-bg active'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />
                 </div>

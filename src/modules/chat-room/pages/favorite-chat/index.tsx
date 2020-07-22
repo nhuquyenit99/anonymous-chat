@@ -18,7 +18,7 @@ export function FavoriteChatRoom() {
             username: userInfo.username
         };
         return (
-            <ConversationBox topic={`/favorite/${topic}`} userInfo={user} />
+            <ConversationBox topic={`/${topic}`} userInfo={user} />
         );
     }
 

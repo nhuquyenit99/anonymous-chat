@@ -57,14 +57,23 @@ export function GroupItem({ data }: { data: GroupType }) {
         if (minute.length === 1) minute = '0' + minute;
         return hour + ':' + minute;
     };
+    const onClickHandler = (e: any) => {
+        document.querySelector('.active')?.classList.remove('active');
+        let element = e.target;
+        while (!element.classList.contains('user-item')) {
+            element = element.parentNode;
+        }
+        element.classList.add('active');
+    };
+    const groupName = data.users.filter(item => item.userId !== userContext.userId).map(item => item.username).join(', ');
     return (
-        <Link to={chatTopic}>
+        <Link to={chatTopic} onClick={onClickHandler}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />
                 </div>
                 <div className='item-content'>
-                    <h5 className="item-name">{data.users.map(item => item.username).join(', ')}</h5>
+                    <h5 className="item-name">{groupName}</h5>
                     <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
                 </div>
                 <p className='extra'>{lastestMessage.time}</p>

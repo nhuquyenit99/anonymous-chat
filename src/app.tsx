@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
-import { setClient } from 'client';
+import { setClient, getClient } from 'client';
 import { UserContext, UserContextProvider, ListMessageContextProvider } from 'context';
 import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
@@ -22,7 +22,19 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
     }
     componentDidMount() {
         this.init();
+
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            let userInfo = {
+                userId: this.context.userId,
+                username: this.context.username
+            };
+            getClient().publish('/user_out', JSON.stringify(userInfo));
+            this.context.clearActiveUsers();
+            this.context.groups = {};
+        });
     }
+
     setupModule() {
         for (let key in INSTALLED_MODULE) {
             const module = new Module(key);
@@ -70,18 +82,18 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         }
         return (
             <BrowserRouter basename="/">
-                <UserContextProvider>
-                    <AppWrapper>
-                        <ListMessageContextProvider>
-                            <ActiveUserPanel />
-                            <Switch>
-                                {this.renderRoute()}
-                                <Route component={NotFoundPage} />
-                            </Switch>
-                            <UserInfoPanel />
-                        </ListMessageContextProvider>
-                    </AppWrapper>
-                </UserContextProvider>
+                {/* <UserContextProvider> */}
+                <AppWrapper>
+                    <ListMessageContextProvider>
+                        <ActiveUserPanel />
+                        <Switch>
+                            {this.renderRoute()}
+                            <Route component={NotFoundPage} />
+                        </Switch>
+                        <UserInfoPanel />
+                    </ListMessageContextProvider>
+                </AppWrapper>
+                {/* </UserContextProvider> */}
             </BrowserRouter>
         );
     }
