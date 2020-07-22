@@ -15,8 +15,6 @@ export function ConversationBox({ topic, userInfo }: Props) {
     const messagesEndRef: any = useRef();
 
     const scrollToBottom = () => {
-        // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-        // messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         const scrollHeight = messagesEndRef.current.scrollHeight;
         const height = messagesEndRef.current.clientHeight;
         const maxScrollTop = scrollHeight + height;
@@ -32,7 +30,6 @@ export function ConversationBox({ topic, userInfo }: Props) {
             <ConversationHeader user={userInfo} />
             <div className='conversation-message' ref={messagesEndRef} >
                 <ConversationMessage data={listMes || []} />
-                {/* <div >Hello</div> */}
             </div>
             <ConversationInput topic={topic} scrollToBottom={scrollToBottom} />
         </div>
