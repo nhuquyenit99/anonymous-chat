@@ -26,7 +26,7 @@ export function GroupItem({ data }: { data: GroupType }) {
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
-                console.log('Receive message');
+                console.log('Receive message from group');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
                 if (lastestMes.userId !== userContext.userId) {

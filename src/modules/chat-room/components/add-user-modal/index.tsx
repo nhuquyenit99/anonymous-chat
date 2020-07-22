@@ -28,10 +28,33 @@ export function AddUserModal(
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
-        const newData = data.filter((user) => user.userId !== userId);
+        let newData = [];
+        if (userId.length > 32) {
+            const userIds = configUserId(userId);
+
+            newData = data.filter((user) => {
+                let check = true;
+                for (let u of userIds) {
+                    if (user.userId === u) check = false;
+                }
+                return check;
+            });
+        } else {
+            newData = data.filter((user) => user.userId !== userId);
+        }
         setUserData(configData(newData));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, userId]);
+
+    const configUserId = (userId: string) => {
+        console.log(userId);
+        let users = [];
+        for (let i = 0; i < userId.length; i += 16) {
+            users.push(userId.slice(i, i + 16));
+        }
+        console.log('UserIds config', users);
+        return users;
+    };
 
     const onKeyDownHandler = (e: any) => {
         if (e.keyCode === 13) {

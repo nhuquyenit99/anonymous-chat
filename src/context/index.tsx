@@ -1,5 +1,6 @@
 import React from 'react';
 import { UserModel, GroupType } from 'models';
+import { getClient } from 'client';
 
 type MessageType = {
     userId: string
@@ -68,14 +69,14 @@ export class UserContextProvider extends React.Component<any, StateType> {
         else {
             this.state = {
                 auth: false,
-                userId: Math.random().toString().substring(2),
+                userId: Math.random().toString().substring(2, 18),
                 username: 'Username',
                 userBio: 'Life as a beautiful flower.',
                 activeUsers: {},
                 favoriteUsers: {},
                 groups: {}
             };
-        }
+        };
         console.log(this.state);
     }
 
@@ -106,10 +107,21 @@ export class UserContextProvider extends React.Component<any, StateType> {
     updateUser = (user: any) => {
         this.setState({
             username: user.username
-        }, this.saveData);
+        }, () => {
+            this.saveData();
+            this.sendInfo();
+        });
         this.setState({
             userBio: user.userBio
         }, this.saveData);
+    };
+    sendInfo = () => {
+        const userInfo = {
+            userId: this.state.userId,
+            username: this.state.username
+        };
+        const userInfoMes = JSON.stringify(userInfo);
+        getClient().publish('/active_user', userInfoMes);
     };
 
     updateAllInfo = (info: StateType) => {

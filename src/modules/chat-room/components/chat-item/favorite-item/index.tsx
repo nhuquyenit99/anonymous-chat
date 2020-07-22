@@ -31,7 +31,7 @@ export function FavoriteItem({ data }: { data: UserItemType }) {
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
-                console.log('Receive message');
+                console.log('Receive message from favorite user');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
             }
