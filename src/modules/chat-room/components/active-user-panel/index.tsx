@@ -6,16 +6,18 @@ import { getClient } from 'client';
 import { PublicItem, UserItem, GroupItem } from 'modules/chat-room/components';
 import './style.scss';
 import { FavoriteItem } from '../chat-item/favorite-item';
+import { useHistory } from 'react-router-dom';
 
 export function ActiveUserPanel() {
     console.log('render ActiveUserPanel');
     const userContext = useContext(UserContext);
+    const history = useHistory();
 
     useEffect(() => {
         getClient().subscribe('/new_user');
         getClient().subscribe('/active_user');
         getClient().subscribe('/user_out');
-        // getClient().subscribe('/group');
+
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/new_user') {
                 console.log('Have a new user: ', message.toString());
@@ -29,12 +31,40 @@ export function ActiveUserPanel() {
                 console.log('Have a user out :', message.toString());
                 removeActiveUser(message);
             }
-            // if (topic === '/group') {
-            //     alert('New group:' + message.toString());
-            // }
+
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        getClient().subscribe('/group');
+        getClient().on('message', (topic: any, message: any) => {
+            if (topic === '/group') {
+                console.log('New group: ', configGroupContent(message));
+                alert('You have a new group!');
+                const usersInGroup = configGroupContent(message);
+                for (let user of usersInGroup) {
+                    if (user.userId === userContext.userId) {
+                        userContext.addGroup(usersInGroup);
+                        console.log(userContext.groups);
+                    }
+                }
+                history.push(`/group/${[...usersInGroup.map(user => user.userId)].sort().join('')}`);
+            }
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const configGroupContent = (message: any) => {
+        const messageSplitted = message.toString().split('"');
+
+        const user1 = { userId: messageSplitted[3], username: messageSplitted[7] };
+        let users = [user1];
+        for (let i = 9; i < messageSplitted.length; i += 8) {
+            const user = { userId: messageSplitted[i + 2], username: messageSplitted[i + 6] };
+            users.push(user);
+        }
+        return users;
+    };
 
     const sendInfo = () => {
         const userInfo = {

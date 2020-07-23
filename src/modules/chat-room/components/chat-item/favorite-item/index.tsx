@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 type UserItemType = {
     userId: string
     username: string
-    favorite?: boolean
 }
 
 export function FavoriteItem({ data }: { data: UserItemType }) {
@@ -31,7 +30,7 @@ export function FavoriteItem({ data }: { data: UserItemType }) {
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
-                console.log('Receive message');
+                console.log('Receive message from favorite user');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
             }
@@ -66,6 +65,7 @@ export function FavoriteItem({ data }: { data: UserItemType }) {
             element = element.parentNode;
         }
         element.classList.add('active');
+        element.childNodes[1].childNodes[1].classList.remove('unread');
     };
     return (
         <Link to={`/favorite${chatTopic}`} onClick={onClickHandler}>

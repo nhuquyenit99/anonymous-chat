@@ -26,7 +26,7 @@ export function GroupItem({ data }: { data: GroupType }) {
     useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
-                console.log('Receive message');
+                console.log('Receive message from group');
                 const lastestMes = configMessage(message);
                 setLastestMessage(lastestMes);
                 if (lastestMes.userId !== userContext.userId) {
@@ -64,6 +64,7 @@ export function GroupItem({ data }: { data: GroupType }) {
             element = element.parentNode;
         }
         element.classList.add('active');
+        element.childNodes[1].childNodes[1].classList.remove('unread');
     };
     const groupName = data.users.filter(item => item.userId !== userContext.userId).map(item => item.username).join(', ');
     return (

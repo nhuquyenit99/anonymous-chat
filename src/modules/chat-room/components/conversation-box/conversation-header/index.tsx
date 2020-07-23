@@ -6,6 +6,7 @@ import './style.scss';
 import { UserContext } from 'context';
 import { AddUserModal } from 'modules/chat-room/components';
 import { getClient } from 'client';
+import { useHistory } from 'react-router-dom';
 
 type ConversationLayout = {
     user: UserModel
@@ -27,15 +28,16 @@ function ConversationHeaderLayout({ user, children }: ConversationLayout) {
 export function ConversationHeader({ user }: { user: UserModel }) {
     const userContext = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
+    const history = useHistory();
     const isGroup = user.username.includes(',');
 
     const addFavoriteHandler = () => {
         userContext.addFavoriteUser(user);
-        window.location.href = `/favorite/${[userContext.userId, user.userId].sort().join('')}`;
+        history.push(`/favorite/${[userContext.userId, user.userId].sort().join('')}`);
     };
     const removeFavoriteUserHandler = () => {
         userContext.removeFavoriteUser(user);
-        window.location.href = `/${[userContext.userId, user.userId].sort().join('')}`;
+        history.push(`/${[userContext.userId, user.userId].sort().join('')}`);
     };
 
     const addHandler = () => {
@@ -47,23 +49,28 @@ export function ConversationHeader({ user }: { user: UserModel }) {
     };
 
     const addUserHandler = (u: UserModel) => {
+        let usersInGroup = [];
         if (isGroup) {
             const chatId = user.userId;
-            const usersInGroup = userContext.groups[chatId].users;
-            userContext.addGroup([...usersInGroup, u]);
-            window.location.href = `/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`;
+            usersInGroup = [...userContext.groups[chatId].users, u];
+            userContext.addGroup(usersInGroup);
+
+
+            getClient().publish('/group', JSON.stringify(usersInGroup));
+            // history.push(`/group/${[...usersInGroup.map(user => user.userId), u.userId].sort().join('')}`);
         } else {
             const myInfo = {
                 userId: userContext.userId,
                 username: userContext.username
             };
-
-            userContext.addGroup([myInfo, user, u]);
+            usersInGroup = [myInfo, user, u];
+            userContext.addGroup(usersInGroup);
             //getClient().publish('/group', JSON.stringify(groupInfo));
             setShowModal(false);
-            window.location.href = `/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`;
-        }
 
+            // history.push(`/group/${[myInfo.userId, user.userId, u.userId].sort().join('')}`);
+        }
+        getClient().publish('/group', JSON.stringify(usersInGroup));
     };
 
     if (user.username === 'PUBLIC' || userContext.auth === false) {
