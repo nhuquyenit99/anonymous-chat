@@ -15,7 +15,7 @@ export function PublicItem({ activeUsers }: PublicItemType) {
     const listMessageContext = useContext(ListMessageContext);
 
     const publicListMes = listMessageContext.allListMessage[0].listMessage;
-    const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
+    const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '', key: '' });
 
     useEffect(() => {
         getClient().subscribe('public');
@@ -42,12 +42,14 @@ export function PublicItem({ activeUsers }: PublicItemType) {
         const userSendId = mesArray[0];
         const userSendName = mesArray[1];
         const mesContent = mesArray[2];
+        const mesKey = mesArray[3];
         return {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
             read: userSendId === userContext.userId ? true : false,
-            time: getTime()
+            time: getTime(),
+            key: mesKey
         };
     };
     const getTime = () => {

@@ -34,7 +34,7 @@ export function ConversationInput({ topic, scrollToBottom }: ConversationInputTy
         setMessageToSend(e.target.value);
     };
     const configMessageToSend = (message: string) => {
-        return [userContext.userId, userContext.username, message].join(',');
+        return [userContext.userId, userContext.username, message, `${userContext.userId}${Date.now()}`].join(',');
     };
 
     const configMessageToPush = (message: string) => {
@@ -43,7 +43,8 @@ export function ConversationInput({ topic, scrollToBottom }: ConversationInputTy
             username: userContext.username,
             content: message,
             read: true,
-            time: getTime()
+            time: getTime(),
+            key: `${userContext.userId}${Date.now()}`
         };
     };
     const getTime = () => {

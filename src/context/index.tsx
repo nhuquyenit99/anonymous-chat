@@ -8,6 +8,7 @@ type MessageType = {
     content: string
     read: boolean
     time: string
+    key: string
 }
 
 type UserContextType = {
@@ -208,7 +209,7 @@ export class ListMessageContextProvider extends React.Component<any, any> {
 
     state = {
         allListMessage: [
-            { topic: '/public', listMessage: [{ userId: '', username: '', content: '', read: false, time: '' }] }
+            { topic: '/public', listMessage: [{ userId: '', username: '', content: '', read: false, time: '', key: '' }] }
         ]
     }
 
