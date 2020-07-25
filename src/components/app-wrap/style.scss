@@ -14,4 +14,16 @@
         color: var(--color-tertiary);
         padding: var(--spacing-sm);
     }
+    .left-panel {
+        width: 20%;
+    }
+    .user-info {
+        width: 25%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .left-panel, .user-info {
+        display: none;
+    }
 }

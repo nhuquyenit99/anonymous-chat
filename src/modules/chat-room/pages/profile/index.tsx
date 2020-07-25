@@ -1,12 +1,12 @@
 import React from 'react';
-import { useParams } from 'react-router';
-
+import { UserInfoPanel } from 'modules/chat-room/components';
+import '../style.scss';
 export function ProfilePage() {
-    let { slug } = useParams();
+    //let { slug } = useParams();
 
     return (
-        <div>
-            {`This is profile ${slug}`}
+        <div className='body'>
+            <UserInfoPanel />
         </div>
     );
 }

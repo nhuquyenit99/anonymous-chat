@@ -1,4 +1,4 @@
-.message-item{
+.message-item {
     position: relative;
     width: 27vw;
     margin: var(--spacing-xs) var(--spacing-xs) 0;
@@ -8,7 +8,7 @@
         width: 2rem;
         height: 2rem;
     }
-    .item-content{
+    .item-content {
         flex: 1;
         width: 20vw;
         display: flex;
@@ -18,19 +18,19 @@
         div {
             width: 100%;
             flex: 1;
-            .username{
+            .username {
                 width: 17vw;
                 font-size: var(--fontSize-md);
                 font-weight: bold;
                 word-wrap: break-word;
             }
-            .message{
+            .message {
                 width: 20vw;
                 font-size: var(--fontSize-sm);
                 word-wrap: break-word;
             }
         }
-        .extra{
+        .extra {
             position: absolute;
             top: var(--spacing-sm);
             right: var(--spacing-md);
@@ -38,12 +38,43 @@
         }
     }
 }
-.right{
+.right {
     float: right;
     .avatar {
         display: none;
     }
-    .item-content{
+    .item-content {
         background: var(--blue-light);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .message-item {
+        width: 48vw;
+        .item-content {
+            width: 45vw;
+            .username {
+                width: 40vw;
+            }
+            .message {
+                width: 45vw;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 450px) {
+    .message-item {
+        width: 70vw;
+        .item-content {
+            width: 70vw;
+            .username {
+                width: 60vw;
+            }
+            .message {
+                width: 70vw;
+            }
+        }
     }
 }

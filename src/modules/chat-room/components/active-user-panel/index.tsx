@@ -13,8 +13,12 @@ export function ActiveUserPanel() {
     const userContext = useContext(UserContext);
     const history = useHistory();
 
+    const path = history.location.pathname;
+    if (path !== '/users') {
+        history.push('./');
+    }
+
     useEffect(() => {
-        history.push('/');
         getClient().subscribe('/new_user');
         getClient().subscribe('/active_user');
         getClient().subscribe('/user_out');

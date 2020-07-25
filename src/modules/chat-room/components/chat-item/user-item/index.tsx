@@ -78,7 +78,7 @@ export function UserItem({ data }: { data: UserItemType }) {
         element.childNodes[1].childNodes[1].classList.remove('unread');
     };
     return (
-        <Link to={chatTopic} onClick={onClickHandler}>
+        <Link to={`/active${chatTopic}`} onClick={onClickHandler}>
             <div className='user-item'>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />
