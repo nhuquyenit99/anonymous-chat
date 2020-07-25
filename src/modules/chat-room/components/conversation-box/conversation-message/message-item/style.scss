@@ -1,6 +1,6 @@
 .message-item{
     position: relative;
-    width: 50%;
+    width: 27vw;
     margin: var(--spacing-xs) var(--spacing-xs) 0;
     align-items: center;
     float: left;
@@ -9,22 +9,31 @@
         height: 2rem;
     }
     .item-content{
-        flex-grow: 1;
+        flex: 1;
+        width: 20vw;
         display: flex;
-        justify-content: space-between;
-        margin-left: var(--spacing-sm);
         background: var(--color-gray);
         border-radius: var(--spacing-sm);
         padding: var(--spacing-xs) var(--spacing-md);
-        div .username{
-            font-size: var(--fontSize-md);
-            // text-transform: uppercase;
-            font-weight: bold;
-        }
-        div .message{
-            font-size: var(--fontSize-sm);
+        div {
+            width: 100%;
+            flex: 1;
+            .username{
+                width: 17vw;
+                font-size: var(--fontSize-md);
+                font-weight: bold;
+                word-wrap: break-word;
+            }
+            .message{
+                width: 20vw;
+                font-size: var(--fontSize-sm);
+                word-wrap: break-word;
+            }
         }
         .extra{
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-md);
             font-size: var(--fontSize-sm);
         }
     }
