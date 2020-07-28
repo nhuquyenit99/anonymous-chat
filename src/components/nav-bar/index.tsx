@@ -11,32 +11,27 @@ export function NavBar() {
     return (
         <>
             <div className={`nav-bar ${show && 'nav-open'}`}>
-                <Link to="/">
+                <Link to="/" className='logo'>
                     <div className="branch-name">
                         {`${getConfig('BRANCH_NAME')}`}
                         <MenuOutlined className="menu-toggle" onClick={() => showMenu(state => !state)} />
                     </div>
                 </Link>
-                {/* <div className="nav-item">
-                <Link to="/">
-                    Home
-                </Link>
-            </div>
-            <div className="nav-item">
-                <Link to="/profile">
-                    Profile
-                </Link>
-            </div> */}
-                <div className="nav-item nav-item-right">
-                    <img className='avatar' src={avatar} alt='avatar' />
-                    <UserContext.Consumer>
-                        {(context) => {
-                            return context.username;
-                        }}
-                    </UserContext.Consumer>
+                <div className="nav-item" onClick={() => showMenu(state => !state)}>
+                    <Link to="/users">
+                        Chat List
+                    </Link>
                 </div>
-            </div>
-            <div>
+                <Link to="/profile">
+                    <div className="nav-item nav-item-right" onClick={() => showMenu(state => !state)}>
+                        <img className='avatar' src={avatar} alt='avatar' />
+                        <UserContext.Consumer>
+                            {(context) => {
+                                return context.username;
+                            }}
+                        </UserContext.Consumer>
+                    </div>
+                </Link>
             </div>
         </>
     );

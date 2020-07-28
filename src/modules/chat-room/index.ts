@@ -1,5 +1,5 @@
 import { Module } from 'core';
-import { ChatRoomPage, ProfilePage, PrivateChatRoom, FavoriteChatRoom, GroupChatRoom } from './pages';
+import { ChatRoomPage, ProfilePage, PrivateChatRoom, FavoriteChatRoom, GroupChatRoom, ActiveUsersPage } from './pages';
 
 export function setup(module: Module) {
     console.log('Setup chat room');
@@ -9,23 +9,28 @@ export function setup(module: Module) {
         component: ChatRoomPage,
     });
     module.route({
-        path: '/:topic',
+        path: '/active/:topic',
         exact: true,
         component: PrivateChatRoom,
     });
     module.route({
         path: '/favorite/:topic',
-        exact: false,
+        exact: true,
         component: FavoriteChatRoom,
     });
     module.route({
         path: '/group/:topic',
-        exact: false,
+        exact: true,
         component: GroupChatRoom,
     });
     module.route({
         path: '/profile',
-        exact: false,
+        exact: true,
         component: ProfilePage,
+    });
+    module.route({
+        path: '/users',
+        exact: false,
+        component: ActiveUsersPage,
     });
 }

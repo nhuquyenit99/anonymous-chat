@@ -1,8 +1,10 @@
 .conversation-input{
     display: flex;
     padding: var(--spacing-md);
-    width: inherit;
+    width: 100%;
     .input-text{
+        outline: none;
+        min-width: 200px;
         flex: 1;
         background: #E1E1E3;
         border-radius: 10rem;

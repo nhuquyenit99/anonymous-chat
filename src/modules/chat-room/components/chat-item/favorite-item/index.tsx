@@ -24,10 +24,6 @@ export function FavoriteItem({ data }: { data: UserItemType }) {
             setLastestMessage(listPrivateMessage[listPrivateMessage.length - 1]);
 
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
                 console.log('Receive message from favorite user');
@@ -35,8 +31,16 @@ export function FavoriteItem({ data }: { data: UserItemType }) {
                 setLastestMessage(lastestMes);
             }
         });
+        return () => {
+            getClient().unsubscribe(chatTopic);
+        };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    // useEffect(() => {
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
     const configMessage = (message: any) => {
         const mesArray = message.toString().split(',');
         const userSendId = mesArray[0];

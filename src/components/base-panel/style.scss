@@ -1,5 +1,4 @@
 .base-panel {
-    width: 20%;
     background: white;
     .panel-title {
         width: inherit;
@@ -11,7 +10,8 @@
   }
 }
 .blue-header-panel {
-    height: inherit;
+    width: 100%;
+    height: 100%;
     .panel-title{
         width: 100%;
         background: blue;
@@ -20,5 +20,13 @@
     .panel-body{
         height: 85vh;
         overflow: auto;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .blue-header-panel {
+        .panel-body{
+            height: 75vh;
+        }
     }
 }

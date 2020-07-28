@@ -4,8 +4,8 @@ import { Module, RootModule } from 'core';
 import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
 import { setClient, getClient } from 'client';
-import { UserContext, UserContextProvider, ListMessageContextProvider } from 'context';
-import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
+import { UserContext, ListMessageContextProvider } from 'context';
+//import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room'),
@@ -82,16 +82,20 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         return (
             <BrowserRouter basename="/">
                 {/* <UserContextProvider> */}
-                <AppWrapper>
-                    <ListMessageContextProvider>
-                        <ActiveUserPanel />
+                <ListMessageContextProvider>
+                    <AppWrapper>
+                        {/* <div>
+                            <ActiveUserPanel />
+                        </div> */}
                         <Switch>
                             {this.renderRoute()}
                             <Route component={NotFoundPage} />
                         </Switch>
-                        <UserInfoPanel />
-                    </ListMessageContextProvider>
-                </AppWrapper>
+                        {/* <div>
+                            <UserInfoPanel />
+                        </div> */}
+                    </AppWrapper>
+                </ListMessageContextProvider>
                 {/* </UserContextProvider> */}
             </BrowserRouter>
         );

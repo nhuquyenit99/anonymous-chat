@@ -13,6 +13,11 @@ export function ActiveUserPanel() {
     const userContext = useContext(UserContext);
     const history = useHistory();
 
+    const path = history.location.pathname;
+    if (path !== '/users') {
+        history.push('./');
+    }
+
     useEffect(() => {
         getClient().subscribe('/new_user');
         getClient().subscribe('/active_user');
@@ -77,7 +82,7 @@ export function ActiveUserPanel() {
 
     const addActiveUser = (message: any) => {
         const activeUserInfo = convertMessageToObject(message);
-        if (activeUserInfo.userId !== userContext.userId) {
+        if (activeUserInfo.userId !== userContext.userId && !userContext.activeUsers[activeUserInfo.userId]) {
             userContext.addActiveUser(activeUserInfo);
             console.log('list active users: ', userContext.activeUsers);
         }

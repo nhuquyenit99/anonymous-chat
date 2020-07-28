@@ -9,6 +9,6 @@ type ConversationMessageType = {
 
 export function ConversationMessage({ data }: ConversationMessageType) {
     return (
-        <BaseList<MessageType> data={data} Item={MessageItem} />
+        <BaseList<MessageType> data={data} Item={MessageItem} className="list-mes-chat" />
     );
 }

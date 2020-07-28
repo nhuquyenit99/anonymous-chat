@@ -1,6 +1,6 @@
-.message-item{
+.message-item {
     position: relative;
-    width: 50%;
+    width: 27vw;
     margin: var(--spacing-xs) var(--spacing-xs) 0;
     align-items: center;
     float: left;
@@ -8,33 +8,73 @@
         width: 2rem;
         height: 2rem;
     }
-    .item-content{
-        flex-grow: 1;
+    .item-content {
+        flex: 1;
+        width: 20vw;
         display: flex;
-        justify-content: space-between;
-        margin-left: var(--spacing-sm);
         background: var(--color-gray);
         border-radius: var(--spacing-sm);
         padding: var(--spacing-xs) var(--spacing-md);
-        div .username{
-            font-size: var(--fontSize-md);
-            // text-transform: uppercase;
-            font-weight: bold;
+        div {
+            width: 100%;
+            flex: 1;
+            .username {
+                width: 17vw;
+                font-size: var(--fontSize-md);
+                font-weight: bold;
+                word-wrap: break-word;
+            }
+            .message {
+                width: 20vw;
+                font-size: var(--fontSize-sm);
+                word-wrap: break-word;
+            }
         }
-        div .message{
-            font-size: var(--fontSize-sm);
-        }
-        .extra{
+        .extra {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-md);
             font-size: var(--fontSize-sm);
         }
     }
 }
-.right{
+.right {
     float: right;
     .avatar {
         display: none;
     }
-    .item-content{
+    .item-content {
         background: var(--blue-light);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .message-item {
+        width: 48vw;
+        .item-content {
+            width: 45vw;
+            .username {
+                width: 40vw;
+            }
+            .message {
+                width: 45vw;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 450px) {
+    .message-item {
+        width: 70vw;
+        .item-content {
+            width: 70vw;
+            .username {
+                width: 60vw;
+            }
+            .message {
+                width: 70vw;
+            }
+        }
     }
 }

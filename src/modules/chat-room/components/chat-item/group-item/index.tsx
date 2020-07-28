@@ -11,7 +11,7 @@ export function GroupItem({ data }: { data: GroupType }) {
     console.log('UserItem data: ', data);
     const userContext = useContext(UserContext);
     let listMessageContext = useContext(ListMessageContext);
-    const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '' });
+    const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '', key: '' });
 
     const chatTopic = `/group/${data.userId}`;
     console.log(chatTopic);
@@ -21,9 +21,6 @@ export function GroupItem({ data }: { data: GroupType }) {
         if (listPrivateMessage) {
             setLastestMessage(listPrivateMessage[listPrivateMessage.length - 1]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
                 console.log('Receive message from group');
@@ -34,19 +31,27 @@ export function GroupItem({ data }: { data: GroupType }) {
                 }
             }
         });
+        return () => {
+            getClient().unsubscribe(chatTopic);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    // useEffect(() => {
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
     const configMessage = (message: any) => {
         const mesArray = message.toString().split(',');
         const userSendId = mesArray[0];
         const userSendName = mesArray[1];
         const mesContent = mesArray[2];
+        const mesKey = mesArray[3];
         return {
             userId: userSendId,
             username: userSendName,
             content: mesContent,
             read: userSendId === userContext.userId ? true : false,
-            time: getTime()
+            time: getTime(),
+            key: mesKey
         };
     };
     const getTime = () => {

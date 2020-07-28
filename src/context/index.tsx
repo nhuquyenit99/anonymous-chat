@@ -7,7 +7,8 @@ type MessageType = {
     username: string
     content: string
     read: boolean
-    time: string
+    time: string,
+    key: string
 }
 
 type UserContextType = {
@@ -208,7 +209,7 @@ export class ListMessageContextProvider extends React.Component<any, any> {
 
     state = {
         allListMessage: [
-            { topic: '/public', listMessage: [{ userId: '', username: '', content: '', read: false, time: '' }] }
+            { topic: '/public', listMessage: [{ userId: '', username: '', content: '', read: false, time: '', key: '' }] }
         ]
     }
 
@@ -219,10 +220,15 @@ export class ListMessageContextProvider extends React.Component<any, any> {
             const newListMes = { topic: topic, listMessage: [mes] };
             allList.push(newListMes);
         } else {
-            allList[listMesIndex].listMessage.push(mes);
+            const listMes = allList[listMesIndex].listMessage;
+            const lastMes = listMes[listMes.length - 1];
+            if (mes.key !== lastMes.key) {
+                allList[listMesIndex].listMessage.push(mes);
+            }
         }
         this.setState(allList);
     }
+
     render() {
         return (
             <ListMessageContext.Provider
