@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { MessageType } from 'models';
 import { BaseList } from 'components';
 import { MessageItem } from './message-item';

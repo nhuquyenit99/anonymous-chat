@@ -3,7 +3,7 @@ import avatar from 'assets/images/avatar.svg';
 import '../style.scss';
 import { getClient } from 'client';
 import { UserContext, ListMessageContext } from 'context';
-import { UserModel, GroupType } from 'models';
+import { GroupType } from 'models';
 import { Link } from 'react-router-dom';
 
 

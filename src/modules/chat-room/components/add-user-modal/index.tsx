@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddUserItem } from './add-user-item';
 import { BaseModal, BaseList } from 'components';
-import { UserContext } from 'context';
 import { UserModel } from 'models';
 import './style.scss';
 

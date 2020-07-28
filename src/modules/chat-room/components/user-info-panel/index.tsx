@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import avatar from 'assets/images/avatar-lighter.svg';
 import { UserForm } from './user-form';
 import { UserContext } from 'context';
