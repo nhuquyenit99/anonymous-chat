@@ -6,4 +6,5 @@ export { BaseList } from './base-list';
 export { BasePanel } from './base-panel';
 export { BaseModal } from './base-modal';
 export { BaseButton } from './base-button';
+export { Loading } from './loading';
 
