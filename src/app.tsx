@@ -48,11 +48,13 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         // Setup module
         this.setupModule();
 
-        let options = {
+        let options: any = {
             clientId: Math.random().toString().substring(2),
+            protocol: 'wss',
+            port: 8883
         };
 
-        const mqtt_client = mqtt.connect('ws://178.128.90.235:8083', options);
+        const mqtt_client = mqtt.connect('wss://mqtt.chillfor.today/mqtt', options);
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
