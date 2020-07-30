@@ -5,6 +5,7 @@ import { AppWrapper, NotFoundPage } from 'components';
 import mqtt from 'mqtt';
 import { setClient, getClient } from 'client';
 import { UserContext, ListMessageContextProvider } from 'context';
+import { getConfig } from 'config';
 //import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
@@ -48,13 +49,17 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         // Setup module
         this.setupModule();
 
+        const host = getConfig('MQTT_URL');
+        const port = getConfig('MQTT_PORT');
+
         let options: any = {
             clientId: Math.random().toString().substring(2),
             protocol: 'wss',
-            port: 8883
+            host: host,
+            port: port
         };
 
-        const mqtt_client = mqtt.connect('wss://mqtt.chillfor.today/mqtt', options);
+        const mqtt_client = mqtt.connect(options);
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
