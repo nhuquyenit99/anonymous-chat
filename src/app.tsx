@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Module, RootModule } from 'core';
-import { AppWrapper, NotFoundPage } from 'components';
+import { AppWrapper, NotFoundPage, Loading } from 'components';
 import mqtt from 'mqtt';
 import { setClient, getClient } from 'client';
 import { UserContext, ListMessageContextProvider } from 'context';
@@ -84,7 +84,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
 
     render() {
         if (this.state.loading) {
-            return <span>Loading...</span>;
+            return <Loading />;
         }
         return (
             <BrowserRouter basename="/">
