@@ -1,8 +1,8 @@
 .message-item {
+    display: block;
     position: relative;
-    width: 27vw;
+    width: 27.5vw;
     margin: var(--spacing-xs) var(--spacing-xs) 0;
-    align-items: center;
     float: left;
     .avatar {
         width: 2rem;
@@ -39,6 +39,7 @@
     }
 }
 .right {
+    width: 26.5vw;
     float: right;
     .avatar {
         display: none;

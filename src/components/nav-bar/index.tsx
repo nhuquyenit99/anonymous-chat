@@ -22,16 +22,19 @@ export function NavBar() {
                         Chat List
                     </Link>
                 </div>
-                <Link to="/profile">
-                    <div className="nav-item nav-item-right" onClick={() => showMenu(state => !state)}>
-                        <img className='avatar' src={avatar} alt='avatar' />
-                        <UserContext.Consumer>
-                            {(context) => {
-                                return context.username;
-                            }}
-                        </UserContext.Consumer>
-                    </div>
-                </Link>
+                <div className="nav-item" onClick={() => showMenu(state => !state)}>
+                    <Link to="/profile">
+                        Your profile
+                    </Link>
+                </div>
+                <div className="nav-item nav-item-right" onClick={() => showMenu(state => !state)}>
+                    <img className='avatar' src={avatar} alt='avatar' />
+                    <UserContext.Consumer>
+                        {(context) => {
+                            return context.username;
+                        }}
+                    </UserContext.Consumer>
+                </div>
             </div>
         </>
     );

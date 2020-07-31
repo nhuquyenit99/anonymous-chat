@@ -92,7 +92,7 @@ export function ConversationHeader({ user }: { user: UserModel }) {
         );
     }
 
-    if (userContext.auth && userContext.favoriteUsers[user.userId])
+    if (userContext.auth && userContext.favoriteUsers[user.userId]) {
         return (
             <ConversationHeaderLayout user={user} >
                 <div>
@@ -109,6 +109,7 @@ export function ConversationHeader({ user }: { user: UserModel }) {
                     data={Object.values(userContext.activeUsers)} />
             </ConversationHeaderLayout>
         );
+    }
     return (
         <ConversationHeaderLayout user={user}>
             <div>

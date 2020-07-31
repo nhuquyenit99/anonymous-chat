@@ -14,8 +14,6 @@ export function ConversationBox({ topic, userInfo }: Props) {
     const userContext = useContext(UserContext);
     const messagesEndRef: any = useRef();
 
-    const isGroup = topic.includes('group');
-
     const scrollToBottom = () => {
         const scrollHeight = messagesEndRef.current.scrollHeight;
         const height = messagesEndRef.current.clientHeight;
@@ -33,7 +31,7 @@ export function ConversationBox({ topic, userInfo }: Props) {
             <div className='conversation-message' ref={messagesEndRef} >
                 <ConversationMessage data={listMes || []} />
             </div>
-            {(isGroup && !userContext.auth) ? <p className='noti'>Please edit your name to be able to chat in this group!</p> :
+            {(!userContext.auth) ? <p className='noti'>Please edit your name to be able to chat here!</p> :
                 <ConversationInput topic={topic} scrollToBottom={scrollToBottom} />}
         </div>
     );

@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 export type UserModel = {
     userId: string;
     username: string;
@@ -23,3 +21,4 @@ export type GroupType = {
     userId: string
     users: Array<UserModel>
 }
+

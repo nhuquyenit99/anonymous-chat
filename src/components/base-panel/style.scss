@@ -1,6 +1,7 @@
 .base-panel {
     background: white;
     .panel-title {
+        font-weight: normal;
         width: inherit;
         font-size: var(--fontSize-md);
         padding-left: var(--spacing-sm);

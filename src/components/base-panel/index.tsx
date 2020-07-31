@@ -10,7 +10,7 @@ type BasePanelProps = {
 export function BasePanel({ title, children, className }: BasePanelProps) {
     return (
         <div className={['base-panel', className].join(' ')}>
-            <p className="panel-title">{title}</p>
+            <h3 className="panel-title">{title}</h3>
             <div className="panel-body">{children}</div>
         </div>
     );

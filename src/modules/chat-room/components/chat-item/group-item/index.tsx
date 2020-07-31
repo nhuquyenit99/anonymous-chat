@@ -4,18 +4,25 @@ import '../style.scss';
 import { getClient } from 'client';
 import { UserContext, ListMessageContext } from 'context';
 import { GroupType } from 'models';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { getConfigMessage } from 'config';
 
 
 export function GroupItem({ data }: { data: GroupType }) {
     console.log('UserItem data: ', data);
+    const history = useHistory();
     const userContext = useContext(UserContext);
+    const [isActive, setIsActive] = useState(false);
     let listMessageContext = useContext(ListMessageContext);
     const [lastestMessage, setLastestMessage] = useState({ userId: '', username: '', content: '', read: false, time: '', key: '' });
 
     const chatTopic = `/group/${data.userId}`;
     console.log(chatTopic);
     useEffect(() => {
+        const path = history.location.pathname;
+        if (path === chatTopic) {
+            setIsActive(true);
+        }
         getClient().subscribe(chatTopic);
         const listPrivateMessage = listMessageContext.allListMessage.find(list => list.topic === chatTopic)?.listMessage;
         if (listPrivateMessage) {
@@ -24,7 +31,11 @@ export function GroupItem({ data }: { data: GroupType }) {
         getClient().on('message', (topic: any, message: any) => {
             if (topic === chatTopic) {
                 console.log('Receive message from group');
-                const lastestMes = configMessage(message);
+                const path = history.location.pathname;
+                if (path !== chatTopic) {
+                    setIsActive(false);
+                }
+                const lastestMes = getConfigMessage(message);
                 setLastestMessage(lastestMes);
                 if (lastestMes.userId !== userContext.userId) {
                     listMessageContext.addMessage(chatTopic, lastestMes);
@@ -36,32 +47,7 @@ export function GroupItem({ data }: { data: GroupType }) {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // useEffect(() => {
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-    const configMessage = (message: any) => {
-        const mesArray = message.toString().split(',');
-        const userSendId = mesArray[0];
-        const userSendName = mesArray[1];
-        const mesContent = mesArray[2];
-        const mesKey = mesArray[3];
-        return {
-            userId: userSendId,
-            username: userSendName,
-            content: mesContent,
-            read: userSendId === userContext.userId ? true : false,
-            time: getTime(),
-            key: mesKey
-        };
-    };
-    const getTime = () => {
-        let date = new Date();
-        let hour = date.getHours().toString();
-        if (hour.length === 1) hour = '0' + hour;
-        let minute = date.getMinutes().toString();
-        if (minute.length === 1) minute = '0' + minute;
-        return hour + ':' + minute;
-    };
+
     const onClickHandler = (e: any) => {
         document.querySelector('.active')?.classList.remove('active');
         let element = e.target;
@@ -69,18 +55,18 @@ export function GroupItem({ data }: { data: GroupType }) {
             element = element.parentNode;
         }
         element.classList.add('active');
-        element.childNodes[1].childNodes[1].classList.remove('unread');
+        setIsActive(true);
     };
     const groupName = data.users.filter(item => item.userId !== userContext.userId).map(item => item.username).join(', ');
     return (
         <Link to={chatTopic} onClick={onClickHandler}>
-            <div className='user-item'>
+            <div className={`user-item ${isActive ? 'active' : ''}`}>
                 <div className='avatar'>
                     <img src={avatar} alt='avatar' />
                 </div>
                 <div className='item-content'>
                     <h5 className="item-name">{groupName}</h5>
-                    <p className={`lastest-message ${!lastestMessage.read ? 'unread' : ''}`}>{lastestMessage.content}</p>
+                    <p className={`lastest-message ${(!lastestMessage.read && !isActive) ? 'unread' : ''}`}>{lastestMessage.content}</p>
                 </div>
                 <p className='extra'>{lastestMessage.time}</p>
             </div>

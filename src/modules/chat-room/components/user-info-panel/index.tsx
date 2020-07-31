@@ -34,14 +34,18 @@ export function UserInfoPanel() {
 
     const onOkHandle = () => {
         if (userForm.userBio === '' || userForm.username === '') {
-            alert('Please input both username and bio');
+            alert('Please input both username and bio!');
         } else {
-            userContext.authenticated();
-            userContext.updateUser({
-                username: userForm.username,
-                userBio: userForm.userBio
-            });
-            setEditMode(false);
+            if (userForm.username === 'Username') {
+                alert('Please use another name!');
+            } else {
+                userContext.authenticated();
+                userContext.updateUser({
+                    username: userForm.username,
+                    userBio: userForm.userBio
+                });
+                setEditMode(false);
+            }
 
         }
     };

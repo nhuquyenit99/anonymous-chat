@@ -8,7 +8,6 @@ export function MessageItem({ data }: { data: MessageType }) {
     const userContext = useContext(UserContext);
     return (
         <div
-            key={Date.now()}
             className={`message-item ${data.userId === userContext.userId ? 'right' : ''}`}
             style={{ display: `${(data.userId === '') ? 'none' : 'flex'}` }}>
             {/* <div className='avatar'> */}
