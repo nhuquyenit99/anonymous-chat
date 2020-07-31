@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { BasePanel, BaseList } from 'components';
 import { UserContext } from 'context';
-import { UserModel, GroupType, UserItemType, GroupItemType } from 'models';
+import { UserItemType, GroupItemType } from 'models';
 import { getClient } from 'client';
 import { PublicItem, UserItem, GroupItem } from 'modules/chat-room/components';
 import './style.scss';
@@ -13,7 +13,7 @@ export function ActiveUserPanel() {
     const userContext = useContext(UserContext);
     const history = useHistory();
 
-    const [path, setPath] = useState('');
+    const [path, setPath] = useState('/');
 
     useEffect(() => {
         setPath(history.location.pathname);
@@ -28,6 +28,7 @@ export function ActiveUserPanel() {
                 sendInfo();
             }
             if (topic === '/active_user') {
+                console.log('Active user: ', message.toString());
                 addActiveUser(message);
             }
             if (topic === '/user_out') {
@@ -42,13 +43,11 @@ export function ActiveUserPanel() {
         getClient().subscribe('/group');
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/group') {
-                console.log('New group: ', configGroupContent(message));
                 alert('You have a new group!');
                 const usersInGroup = configGroupContent(message);
                 for (let user of usersInGroup) {
                     if (user.userId === userContext.userId) {
                         userContext.addGroup(usersInGroup);
-                        console.log(userContext.groups);
                     }
                 }
                 history.push(`/group/${[...usersInGroup.map(user => user.userId)].sort().join('')}`);
@@ -107,15 +106,20 @@ export function ActiveUserPanel() {
         return Object.values(data).map((item: any) => {
             return {
                 ...item,
-                pathName: path
+                pathName: path,
+                changePath: changePathHandler
             };
         });
+    };
+
+    const changePathHandler = (path: string) => {
+        setPath(path);
     };
 
     return (
         <BasePanel title='Chat list' className='blue-header-panel'>
             <PublicItem
-                activeUsers={Object.keys(userContext.activeUsers).length} />
+                activeUsers={Object.keys(userContext.activeUsers).length} pathName={path} changePath={changePathHandler} />
             {Object.values(userContext.favoriteUsers).length !== 0 && (
                 <div>
                     <p className='title'>{`Favorite Users (${Object.values(userContext.favoriteUsers).length})`}</p>
