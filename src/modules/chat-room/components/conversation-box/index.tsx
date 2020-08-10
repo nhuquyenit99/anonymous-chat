@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { ConversationHeader, ConversationInput, ConversationMessage } from 'modules/chat-room/components';
 import { ListMessageContext, UserContext } from 'context';
 import { UserModel } from 'models';
@@ -14,14 +14,14 @@ export function ConversationBox({ topic, userInfo }: Props) {
     const userContext = useContext(UserContext);
     const messagesEndRef: any = useRef();
 
-    const isGroup = topic.includes('group');
+    useEffect(() => {
+        console.log('scrollToEnd...');
+        scrollToEnd();
 
-    const scrollToBottom = () => {
-        const scrollHeight = messagesEndRef.current.scrollHeight;
-        const height = messagesEndRef.current.clientHeight;
-        const maxScrollTop = scrollHeight + height;
-        messagesEndRef.current.scrollTop = maxScrollTop;
-        console.log('messagesEndRef', messagesEndRef.current);
+    });
+
+    const scrollToEnd = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     const listMessageContext = useContext(ListMessageContext);
@@ -30,11 +30,12 @@ export function ConversationBox({ topic, userInfo }: Props) {
     return (
         <div className='conversation-box'>
             <ConversationHeader user={userInfo} />
-            <div className='conversation-message' ref={messagesEndRef} >
+            <div className='conversation-message' >
                 <ConversationMessage data={listMes || []} />
+                <div ref={messagesEndRef} />
             </div>
-            {(isGroup && !userContext.auth) ? <p className='noti'>Please edit your name to be able to chat in this group!</p> :
-                <ConversationInput topic={topic} scrollToBottom={scrollToBottom} />}
+            {(!userContext.auth) ? <p className='noti'>Please edit your name to be able to chat here!</p> :
+                <ConversationInput topic={topic} />}
         </div>
     );
 }

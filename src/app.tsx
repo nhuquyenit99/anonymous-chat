@@ -1,11 +1,12 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Module, RootModule } from 'core';
-import { AppWrapper, NotFoundPage } from 'components';
+import { AppWrapper, NotFoundPage, Loading } from 'components';
 import mqtt from 'mqtt';
 import { setClient, getClient } from 'client';
-import { UserContext, UserContextProvider, ListMessageContextProvider } from 'context';
-import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
+import { UserContext, ListMessageContextProvider } from 'context';
+import { getConfig } from 'config';
+//import { UserInfoPanel, ActiveUserPanel } from 'modules/chat-room/components';
 
 const INSTALLED_MODULE: any = {
     'chat-room': require('./modules/chat-room'),
@@ -48,11 +49,17 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         // Setup module
         this.setupModule();
 
-        let options = {
+        const host = getConfig('MQTT_URL');
+        const port = getConfig('MQTT_PORT');
+
+        let options: any = {
             clientId: Math.random().toString().substring(2),
+            protocol: 'wss',
+            host: host,
+            port: port
         };
 
-        const mqtt_client = mqtt.connect('ws://178.128.90.235:8083', options);
+        const mqtt_client = mqtt.connect(options);
         setClient(mqtt_client);
 
         mqtt_client.on('connect', () => {
@@ -77,21 +84,25 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
 
     render() {
         if (this.state.loading) {
-            return <span>Loading...</span>;
+            return <Loading />;
         }
         return (
             <BrowserRouter basename="/">
                 {/* <UserContextProvider> */}
-                <AppWrapper>
-                    <ListMessageContextProvider>
-                        <ActiveUserPanel />
+                <ListMessageContextProvider>
+                    <AppWrapper>
+                        {/* <div>
+                            <ActiveUserPanel />
+                        </div> */}
                         <Switch>
                             {this.renderRoute()}
                             <Route component={NotFoundPage} />
                         </Switch>
-                        <UserInfoPanel />
-                    </ListMessageContextProvider>
-                </AppWrapper>
+                        {/* <div>
+                            <UserInfoPanel />
+                        </div> */}
+                    </AppWrapper>
+                </ListMessageContextProvider>
                 {/* </UserContextProvider> */}
             </BrowserRouter>
         );

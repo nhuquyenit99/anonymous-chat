@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import avatar from 'assets/images/avatar-lighter.svg';
 import { UserForm } from './user-form';
 import { UserContext } from 'context';
@@ -34,14 +34,18 @@ export function UserInfoPanel() {
 
     const onOkHandle = () => {
         if (userForm.userBio === '' || userForm.username === '') {
-            alert('Please input both username and bio');
+            alert('Please input both username and bio!');
         } else {
-            userContext.authenticated();
-            userContext.updateUser({
-                username: userForm.username,
-                userBio: userForm.userBio
-            });
-            setEditMode(false);
+            if (userForm.username === 'Username') {
+                alert('Please use another name!');
+            } else {
+                userContext.authenticated();
+                userContext.updateUser({
+                    username: userForm.username,
+                    userBio: userForm.userBio
+                });
+                setEditMode(false);
+            }
 
         }
     };

@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 export type UserModel = {
     userId: string;
     username: string;
@@ -13,13 +11,22 @@ export type MessageType = {
     read: boolean;
     time: string;
 }
-// export type FavoriteType = {
-//     userId: string
-//     username: string
-//     favorite: boolean
-// }
 
 export type GroupType = {
     userId: string
     users: Array<UserModel>
+}
+
+export type UserItemType = {
+    userId: string
+    username: string
+    pathName: string
+    changePath: (path: string) => void
+}
+
+export type GroupItemType = {
+    userId: string
+    users: Array<UserModel>
+    pathName: string
+    changePath: (path: string) => void
 }

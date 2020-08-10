@@ -1,8 +1,13 @@
 .base-list {
-    overflow: auto;
+    overflow-y: auto;
     flex: 1;
 }
 .list-mes-chat {
-    width: 55vw;
+    width: 54vw;
 }
 
+@media only screen and (max-width: 768px){
+    .list-mes-chat {
+        width: 100vw;
+    } 
+}

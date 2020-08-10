@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { getConfig } from 'config';
@@ -11,23 +11,23 @@ export function NavBar() {
     return (
         <>
             <div className={`nav-bar ${show && 'nav-open'}`}>
-                <Link to="/">
+                <Link to="/" className='logo'>
                     <div className="branch-name">
                         {`${getConfig('BRANCH_NAME')}`}
                         <MenuOutlined className="menu-toggle" onClick={() => showMenu(state => !state)} />
                     </div>
                 </Link>
-                {/* <div className="nav-item">
-                <Link to="/">
-                    Home
-                </Link>
-            </div>
-            <div className="nav-item">
-                <Link to="/profile">
-                    Profile
-                </Link>
-            </div> */}
-                <div className="nav-item nav-item-right">
+                <div className="nav-item" onClick={() => showMenu(state => !state)}>
+                    <Link to="/users">
+                        Chat List
+                    </Link>
+                </div>
+                <div className="nav-item" onClick={() => showMenu(state => !state)}>
+                    <Link to="/profile">
+                        Your profile
+                    </Link>
+                </div>
+                <div className="nav-item nav-item-right" onClick={() => showMenu(state => !state)}>
                     <img className='avatar' src={avatar} alt='avatar' />
                     <UserContext.Consumer>
                         {(context) => {
@@ -35,8 +35,6 @@ export function NavBar() {
                         }}
                     </UserContext.Consumer>
                 </div>
-            </div>
-            <div>
             </div>
         </>
     );

@@ -3,13 +3,13 @@ import btnSend from 'assets/images/Send-button.svg';
 import './style.scss';
 import { getClient } from 'client';
 import { UserContext, ListMessageContext } from 'context';
+import { getTime } from 'config';
 
 type ConversationInputType = {
     topic: string;
-    scrollToBottom: () => void
 }
 
-export function ConversationInput({ topic, scrollToBottom }: ConversationInputType) {
+export function ConversationInput({ topic }: ConversationInputType) {
     const userContext = useContext(UserContext);
     const listMessageContext = useContext(ListMessageContext);
     const [messageToSend, setMessageToSend] = useState('');
@@ -20,12 +20,10 @@ export function ConversationInput({ topic, scrollToBottom }: ConversationInputTy
             getClient().publish(topic, configMessageToSend(messageToSend));
             listMessageContext.addMessage(topic, configMessageToPush(messageToSend));
             setMessageToSend('');
-            scrollToBottom();
         }
     };
 
     const keyDownHandler = (e: any) => {
-        console.log('KeyDownHandler...');
         if (e.keyCode === 13) {
             sendMessage();
         }
@@ -46,14 +44,6 @@ export function ConversationInput({ topic, scrollToBottom }: ConversationInputTy
             time: getTime(),
             key: `${userContext.userId}${Date.now()}`
         };
-    };
-    const getTime = () => {
-        let date = new Date();
-        let hour = date.getHours().toString();
-        if (hour.length === 1) hour = '0' + hour;
-        let minute = date.getMinutes().toString();
-        if (minute.length === 1) minute = '0' + minute;
-        return hour + ':' + minute;
     };
 
     return (

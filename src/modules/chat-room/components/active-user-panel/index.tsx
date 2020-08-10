@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BasePanel, BaseList } from 'components';
 import { UserContext } from 'context';
-import { UserModel, GroupType } from 'models';
+import { UserItemType, GroupItemType } from 'models';
 import { getClient } from 'client';
 import { PublicItem, UserItem, GroupItem } from 'modules/chat-room/components';
 import './style.scss';
@@ -13,8 +13,10 @@ export function ActiveUserPanel() {
     const userContext = useContext(UserContext);
     const history = useHistory();
 
+    const [path, setPath] = useState('/');
+
     useEffect(() => {
-        history.push('/');
+        setPath(history.location.pathname);
         getClient().subscribe('/new_user');
         getClient().subscribe('/active_user');
         getClient().subscribe('/user_out');
@@ -26,6 +28,7 @@ export function ActiveUserPanel() {
                 sendInfo();
             }
             if (topic === '/active_user') {
+                console.log('Active user: ', message.toString());
                 addActiveUser(message);
             }
             if (topic === '/user_out') {
@@ -40,13 +43,11 @@ export function ActiveUserPanel() {
         getClient().subscribe('/group');
         getClient().on('message', (topic: any, message: any) => {
             if (topic === '/group') {
-                console.log('New group: ', configGroupContent(message));
                 alert('You have a new group!');
                 const usersInGroup = configGroupContent(message);
                 for (let user of usersInGroup) {
                     if (user.userId === userContext.userId) {
                         userContext.addGroup(usersInGroup);
-                        console.log(userContext.groups);
                     }
                 }
                 history.push(`/group/${[...usersInGroup.map(user => user.userId)].sort().join('')}`);
@@ -68,12 +69,14 @@ export function ActiveUserPanel() {
     };
 
     const sendInfo = () => {
-        const userInfo = {
-            userId: userContext.userId,
-            username: userContext.username
-        };
-        const userInfoMes = JSON.stringify(userInfo);
-        getClient().publish('/active_user', userInfoMes);
+        if (userContext.auth) {
+            const userInfo = {
+                userId: userContext.userId,
+                username: userContext.username
+            };
+            const userInfoMes = JSON.stringify(userInfo);
+            getClient().publish('/active_user', userInfoMes);
+        }
     };
 
     const addActiveUser = (message: any) => {
@@ -98,26 +101,41 @@ export function ActiveUserPanel() {
         console.log('list active users: ', userContext.activeUsers);
     };
 
+
+    const configData = (data: any) => {
+        return Object.values(data).map((item: any) => {
+            return {
+                ...item,
+                pathName: path,
+                changePath: changePathHandler
+            };
+        });
+    };
+
+    const changePathHandler = (path: string) => {
+        setPath(path);
+    };
+
     return (
         <BasePanel title='Chat list' className='blue-header-panel'>
             <PublicItem
-                activeUsers={Object.keys(userContext.activeUsers).length} />
+                activeUsers={Object.keys(userContext.activeUsers).length} pathName={path} changePath={changePathHandler} />
             {Object.values(userContext.favoriteUsers).length !== 0 && (
                 <div>
                     <p className='title'>{`Favorite Users (${Object.values(userContext.favoriteUsers).length})`}</p>
-                    <BaseList<UserModel> data={Object.values(userContext.favoriteUsers)} Item={FavoriteItem} />
+                    <BaseList<UserItemType> data={configData(userContext.favoriteUsers)} Item={FavoriteItem} />
                 </div>
             )}
             {Object.values(userContext.groups).length !== 0 && (
                 <div>
                     <p className='title'>{`Groups (${Object.values(userContext.groups).length})`}</p>
-                    <BaseList<GroupType> data={Object.values(userContext.groups)} Item={GroupItem} />
+                    <BaseList<GroupItemType> data={configData(userContext.groups)} Item={GroupItem} />
                 </div>
             )}
             {userContext.activeUsers && (
                 <div>
                     <p className='title'>{`Active Users (${Object.values(userContext.activeUsers).length})`}</p>
-                    <BaseList<UserModel> data={Object.values(userContext.activeUsers)} Item={UserItem} />
+                    <BaseList<UserItemType> data={configData(userContext.activeUsers)} Item={UserItem} />
                 </div>
             )}
         </BasePanel>
