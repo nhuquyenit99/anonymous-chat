@@ -1,0 +1,33 @@
+.base-panel {
+    background: white;
+    .panel-title {
+        font-weight: normal;
+        width: inherit;
+        font-size: var(--fontSize-md);
+        padding-left: var(--spacing-sm);
+        margin-bottom: 0;
+        height: 2.5rem;
+        line-height: 2.5rem;
+  }
+}
+.blue-header-panel {
+    width: 100%;
+    height: 100%;
+    .panel-title{
+        width: 100%;
+        background: blue;
+        color: white;   
+    }
+    .panel-body{
+        height: 85vh;
+        overflow: auto;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .blue-header-panel {
+        .panel-body{
+            height: 75vh;
+        }
+    }
+}

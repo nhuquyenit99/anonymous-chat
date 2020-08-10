@@ -1,0 +1,35 @@
+.user-info-panel {
+  height: 100%;
+  flex: 1;
+  width: 100%;
+  background-color: white;
+  .user-info-body {
+    background-color: var(--bgColor-secondary-dark);
+    position: relative;
+    .user-info-content {
+      padding-top: var(--spacing-3xl);
+      text-align: center;
+      .avatar {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 11rem;
+        height: 11rem;
+      }
+      .username {
+        font-weight: bold;
+        font-size: var(--fontSize-xl);
+        padding-top: var(--spacing-xl);
+        margin-bottom: 0;
+        color: white;
+      }
+      .bio {
+        color: rgba(255, 255, 255, 0.68);
+        font-size: var(--fontSize-lg);
+        margin-top: var(--spacing-sm);
+        padding-bottom: var(--spacing-3xl);
+      }
+    }
+  }
+}
+

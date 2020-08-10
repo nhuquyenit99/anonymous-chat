@@ -3,9 +3,12 @@
     flex-shrink: 0;
     background-color: #fff;
     box-shadow: 0 1px 3px 0 rgba(27, 27, 27, 0.1);
-    align-items: stretch;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
     z-index: 999;
+    a {
+        color: black;
+    }
 
     & .nav-item-group {
         display: flex;
@@ -34,9 +37,10 @@
             }
         }
     }
-
     & .nav-item {
-        display: flex;
+        font-size: 1rem;
+        font-weight: bold;
+        display: none;
         flex-shrink: 0;
         align-items: center;
         justify-content: center;
@@ -70,10 +74,14 @@
     }
 
     & .nav-item-right {
+        display: flex;
         margin-left: auto;
+        font-weight: bold;
+        color: black;
     }
 
     & .branch-name {
+        
         display: flex;
         flex-shrink: 0;
         align-items: center;
@@ -102,7 +110,9 @@
             display: flex !important;
         }
     }
-
+    .logo {
+        width: 100%;
+    }
     .nav-bar {
         flex-direction: column;
 
@@ -149,4 +159,9 @@
             }
         }
     }
+}
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    margin-right: var(--spacing-xs);
 }

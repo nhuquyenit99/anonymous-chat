@@ -5,10 +5,13 @@ import * as serviceWorker from './serviceWorker';
 
 import './style/index.scss';
 import './style/variables.scss';
+import { UserContextProvider } from 'context';
 
 ReactDOM.render(
     <React.StrictMode>
-        <RootApplication />
+        <UserContextProvider>
+            <RootApplication />
+        </UserContextProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

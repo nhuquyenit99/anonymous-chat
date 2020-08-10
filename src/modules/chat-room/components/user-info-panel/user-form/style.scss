@@ -1,0 +1,28 @@
+.user-form {
+  padding: var(--spacing-md);
+  .field {
+    display: flex;
+    margin-bottom: var(--spacing-xs);
+    .label {
+      width: 25%;
+      font-size: var(--fontSize-md);
+      color: black;
+      opacity: .9;
+      font-weight: bold;
+    }
+    .text-input {
+      padding-left: var(--spacing-xs);
+      width: 75%;
+      background: var(--blue-light);
+      font-size: var(--fontSize-md);
+      color: #000;
+      border-radius: 0;
+      height: 2rem;
+      border: none;
+      opacity: 0.8;
+    }
+    .textarea {
+      height: 5rem;
+    }
+  }
+}
