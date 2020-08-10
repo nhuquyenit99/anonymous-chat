@@ -7,10 +7,9 @@ import { getTime } from 'config';
 
 type ConversationInputType = {
     topic: string;
-    scrollToBottom: () => void
 }
 
-export function ConversationInput({ topic, scrollToBottom }: ConversationInputType) {
+export function ConversationInput({ topic }: ConversationInputType) {
     const userContext = useContext(UserContext);
     const listMessageContext = useContext(ListMessageContext);
     const [messageToSend, setMessageToSend] = useState('');
@@ -21,7 +20,6 @@ export function ConversationInput({ topic, scrollToBottom }: ConversationInputTy
             getClient().publish(topic, configMessageToSend(messageToSend));
             listMessageContext.addMessage(topic, configMessageToPush(messageToSend));
             setMessageToSend('');
-            scrollToBottom();
         }
     };
 
